@@ -1,0 +1,36 @@
+package aoc.kingdoms.lukasz.events.triggers;
+
+import aoc.kingdoms.lukasz.jakowski.CFG;
+import aoc.kingdoms.lukasz.jakowski.Game;
+import aoc.kingdoms.lukasz.map.civilization.Civilization;
+import aoc.kingdoms.lukasz.textures.Images;
+import team.rainfall.rfEvent.Counter;
+import team.rainfall.rfEvent.ExpressionProcessor;
+import team.rainfall.rfEvent.rfEvent;
+
+public class EventTrigger_If_Counter extends EventTrigger_Value{
+    public String expStr;
+    public EventTrigger_If_Counter(String expStr) {
+        this.expStr = expStr;
+    }
+
+    public boolean outCondition(int iCivID, int iProvinceID) {
+        return ExpressionProcessor.satisfied(iCivID,expStr);
+    }
+
+    public String getText() {
+        return Game.lang.get("Random") + " < ";
+    }
+
+    public String getText2() {
+        return "" + CFG.getPrecision2(0, 10) + "%";
+    }
+
+    public String getText3() {
+        return "";
+    }
+
+    public int getImage() {
+        return Images.dice;
+    }
+}
