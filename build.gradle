@@ -1,0 +1,21 @@
+plugins {
+    id 'java'
+    id 'com.github.johnrengelman.shadow' version '8.1.1'
+}
+
+group = 'team.rainfall.rfEvent'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    maven { url 'https://maven.aliyun.com/repository/public' }
+    maven {
+        url "https://plugins.gradle.org/m2/"
+    }
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'com.udojava:EvalEx:2.7'
+    shadow fileTree(dir:'libs',includes: ['*.jar'])
+}
+
