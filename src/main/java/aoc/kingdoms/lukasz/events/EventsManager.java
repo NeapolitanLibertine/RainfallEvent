@@ -1982,7 +1982,11 @@ public class EventsManager {
                                         option.outcome.add(new EventOutcome_Div_Counter(sLine[1],sLine[2],Integer.parseInt(sLine[3])));
                                         break;
                                     case "set_counter":
-                                        option.outcome.add(new EventOutcome_Set_Counter(sLine[1],sLine[2],sLine[3]));
+                                        if(sLine.length > 3) {
+                                            option.outcome.add(new EventOutcome_Set_Counter(sLine[1], sLine[2], sLine[3]));
+                                        }else {
+                                            option.outcome.add(new EventOutcome_Set_Counter(sLine[1], sLine[2]));
+                                        }
                                         break;
                                     case "gold":
                                         option.outcome.add(new EventOutcome_Gold(Float.parseFloat(sLine[1])));
@@ -2271,6 +2275,22 @@ public class EventsManager {
                                     case "white_peace":
                                         try {
                                             option.outcome.add(new EventOutcome_WhitePeace(sLine[1], sLine[2]));
+                                        } catch (Exception var30) {
+                                            ex = var30;
+                                            CFG.exceptionStack(ex);
+                                        }
+                                        break;
+                                    case "change_law":
+                                        try {
+                                            option.outcome.add(new EventOutcome_Change_Law(Integer.parseInt(sLine[1]), Integer.parseInt(sLine[2])));
+                                        } catch (Exception var30) {
+                                            ex = var30;
+                                            CFG.exceptionStack(ex);
+                                        }
+                                        break;
+                                    case "change_law2":
+                                        try {
+                                            option.outcome.add(new EventOutcome_Change_Law(sLine[1], Integer.parseInt(sLine[2]), Integer.parseInt(sLine[3])));
                                         } catch (Exception var30) {
                                             ex = var30;
                                             CFG.exceptionStack(ex);

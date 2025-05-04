@@ -14,6 +14,8 @@ import team.rainfall.finality.FinalityLogger;
 
 import java.util.ArrayList;
 
+import static aoc.kingdoms.lukasz.jakowski.Missions.MissionTree.loadMissionsImagesCiv;
+
 public class rfEvent {
     public static final String CODENAME = "IsolationForest";
     public static void loadMissionForCiv(int iCivID) {
@@ -36,7 +38,7 @@ public class rfEvent {
             try {
                 Mission mission = (Mission) e;
                 mission.Name = Game.lang.get(mission.Name);
-                FinalityLogger.debug("mission1 "+mission.Name);
+                FinalityLogger.debug("mission1 "+mission.ImageName);
                 FileHandle tempFileEvent;
                 if (FileManager.loadFile("map/" + Game.map.getFile_ActiveMap_Path() + "scenarios/" + EventsManager.loadScenarioEventsTag + "/" + "missions/" + "missionsEvents/" + mission.MissionEvent).exists()) {
                     tempFileEvent = FileManager.loadFile("map/" + Game.map.getFile_ActiveMap_Path() + "scenarios/" + EventsManager.loadScenarioEventsTag + "/" + "missions/" + "missionsEvents/" + mission.MissionEvent);
@@ -47,6 +49,7 @@ public class rfEvent {
                 mission.event = EventsManager.loadEvent(999, tempFileEvent.readString().split("\\r?\\n"));
                 Game.getCiv(iCivID).lMissions.add(mission);
                 Game.getCiv(iCivID).iMissionsSize++;
+                loadMissionsImagesCiv(iCivID);
             } catch (Exception var10) {
                 CFG.exceptionStack(var10);
             }

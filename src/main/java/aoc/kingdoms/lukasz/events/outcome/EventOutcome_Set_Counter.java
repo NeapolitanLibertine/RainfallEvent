@@ -23,9 +23,17 @@ public class EventOutcome_Set_Counter extends EventOutcome {
         this.expStr = expStr;
         this.counterName = counterName;
     }
+    public EventOutcome_Set_Counter(String counterName, String expStr) {
+        this.civTAG = rfEvent.CODENAME;
+        this.expStr = expStr;
+        this.counterName = counterName;
+    }
 
     public void updateCiv(int iCivID, int bonus_duration) {
         try {
+            if(civTAG.equals(rfEvent.CODENAME)){
+                civTAG = Game.getCiv(iCivID).getCivTag();
+            }
             Counter counter = new Counter();
             String name = counterName;
             String civTag = Game.getCiv(iCivID).getCivTag();
