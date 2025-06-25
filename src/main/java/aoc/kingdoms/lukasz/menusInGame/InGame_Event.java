@@ -6,19 +6,15 @@
 package aoc.kingdoms.lukasz.menusInGame;
 
 import aoc.kingdoms.lukasz.events.Event;
-import aoc.kingdoms.lukasz.events.EventOption;
 import aoc.kingdoms.lukasz.events.EventsManager;
-import aoc.kingdoms.lukasz.events.outcome.EventOutcome;
 import aoc.kingdoms.lukasz.jakowski.CFG;
 import aoc.kingdoms.lukasz.jakowski.Game;
 import aoc.kingdoms.lukasz.jakowski.Missions.MissionTree;
 import aoc.kingdoms.lukasz.jakowski.Renderer.Renderer;
-import aoc.kingdoms.lukasz.jakowski.SoundsManager;
 import aoc.kingdoms.lukasz.jakowski.Steam.SteamAchievementsManager;
 import aoc.kingdoms.lukasz.map.ResourcesManager;
 import aoc.kingdoms.lukasz.menu.Colors;
 import aoc.kingdoms.lukasz.menu.Menu;
-import aoc.kingdoms.lukasz.menu.MenuManager;
 import aoc.kingdoms.lukasz.menu.menuTitle.MenuTitleIMG_DoubleText;
 import aoc.kingdoms.lukasz.menu_element.Empty;
 import aoc.kingdoms.lukasz.menu_element.MenuElement;
@@ -33,11 +29,8 @@ import aoc.kingdoms.lukasz.menu_element.menuElementHover.MenuElement_HoverElemen
 import aoc.kingdoms.lukasz.menu_element.textStatic.Text_Desc;
 import aoc.kingdoms.lukasz.textures.ImageManager;
 import aoc.kingdoms.lukasz.textures.Images;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import org.lwjgl.opengl.GL20;
-import team.rainfall.luminosity.annotations.Overlay;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -82,29 +75,28 @@ public class InGame_Event extends Menu {
             CFG.exceptionStack(ex);
         }
 
-        if (eventType != 2 && eventType != 5) {
+        if (eventType != 2 && eventType != 5 && !event.no_text) {
             menuElements.add(new Text_Desc(Game.lang.get(this.event.desc), paddingLeft, buttonY, menuWidth - paddingLeft * 2));
         } else {
             String sResource = "";
             String sPriceChange = "";
 
             try {
-                sResource = ResourcesManager.getResourceName(((EventOutcome)((EventOption)this.event.options.get(0)).outcome.get(0)).getValue1());
-                sPriceChange = CFG.getPrecision2(((EventOutcome)((EventOption)this.event.options.get(0)).outcome.get(0)).getValue2(), 10);
+                sResource = ResourcesManager.getResourceName(this.event.options.get(0).outcome.get(0).getValue1());
+                sPriceChange = CFG.getPrecision2(this.event.options.get(0).outcome.get(0).getValue2(), 10);
             } catch (Exception var15) {
-                Exception ex = var15;
-                CFG.exceptionStack(ex);
+                CFG.exceptionStack(var15);
             }
             if(!event.no_text) {
                 menuElements.add(new Text_Desc(Game.lang.get(this.event.desc, sResource, sPriceChange), paddingLeft, buttonY, menuWidth - paddingLeft * 2));
             }
         }
 
-        buttonY += ((MenuElement)menuElements.get(menuElements.size() - 1)).getHeight() + CFG.PADDING * 2;
+        buttonY += menuElements.get(menuElements.size() - 1).getHeight() + CFG.PADDING * 2;
 
         int tMenuHeight;
         for(tMenuHeight = 0; tMenuHeight < this.event.options.size(); ++tMenuHeight) {
-            menuElements.add(new ButtonGame_Value(Game.lang.get(((EventOption)this.event.options.get(tMenuHeight)).name), CFG.FONT_REGULAR, -1, paddingLeft, buttonY, menuWidth - paddingLeft * 2, true, tMenuHeight) {
+            menuElements.add(new ButtonGame_Value(Game.lang.get(this.event.options.get(tMenuHeight).name), CFG.FONT_REGULAR, -1, paddingLeft, buttonY, menuWidth - paddingLeft * 2, true, tMenuHeight) {
                 public void actionElement() {
                     Game.player.removeActiveEvent(InGame_Event.eventType, InGame_Event.eventID);
                     madeDecision = true;
@@ -131,19 +123,19 @@ public class InGame_Event extends Menu {
                     nData.clear();
 
                     try {
-                        for(int i = 0; i < ((EventOption)InGame_Event.this.event.options.get(this.getCurrent())).outcome.size(); ++i) {
-                            if (((EventOutcome)((EventOption)InGame_Event.this.event.options.get(this.getCurrent())).outcome.get(i)).getStringLeft() != null) {
-                                nData.add(new MenuElement_HoverElement_Type_Text(((EventOutcome)((EventOption)InGame_Event.this.event.options.get(this.getCurrent())).outcome.get(i)).getStringLeft(), CFG.FONT_REGULAR_SMALL));
-                                if (((EventOutcome)((EventOption)InGame_Event.this.event.options.get(this.getCurrent())).outcome.get(i)).getStringRight() != null) {
-                                    nData.add(new MenuElement_HoverElement_Type_Text(((EventOutcome)((EventOption)InGame_Event.this.event.options.get(this.getCurrent())).outcome.get(i)).getStringRight(), CFG.FONT_BOLD_SMALL, Colors.HOVER_GOLD));
+                        for(int i = 0; i < InGame_Event.this.event.options.get(this.getCurrent()).outcome.size(); ++i) {
+                            if (InGame_Event.this.event.options.get(this.getCurrent()).outcome.get(i).getStringLeft() != null) {
+                                nData.add(new MenuElement_HoverElement_Type_Text(InGame_Event.this.event.options.get(this.getCurrent()).outcome.get(i).getStringLeft(), CFG.FONT_REGULAR_SMALL));
+                                if (InGame_Event.this.event.options.get(this.getCurrent()).outcome.get(i).getStringRight() != null) {
+                                    nData.add(new MenuElement_HoverElement_Type_Text(InGame_Event.this.event.options.get(this.getCurrent()).outcome.get(i).getStringRight(), CFG.FONT_BOLD_SMALL, Colors.HOVER_GOLD));
                                 }
 
-                                if (((EventOutcome)((EventOption)InGame_Event.this.event.options.get(this.getCurrent())).outcome.get(i)).getImage() >= 0) {
-                                    nData.add(new MenuElement_HoverElement_Type_Image(((EventOutcome)((EventOption)InGame_Event.this.event.options.get(this.getCurrent())).outcome.get(i)).getImage(), CFG.PADDING, ((EventOutcome)((EventOption)InGame_Event.this.event.options.get(this.getCurrent())).outcome.get(i)).getStringRight2(((EventOption)InGame_Event.this.event.options.get(this.getCurrent())).bonus_duration) != null ? CFG.PADDING : 0));
+                                if (InGame_Event.this.event.options.get(this.getCurrent()).outcome.get(i).getImage() >= 0) {
+                                    nData.add(new MenuElement_HoverElement_Type_Image(InGame_Event.this.event.options.get(this.getCurrent()).outcome.get(i).getImage(), CFG.PADDING, InGame_Event.this.event.options.get(this.getCurrent()).outcome.get(i).getStringRight2(InGame_Event.this.event.options.get(this.getCurrent()).bonus_duration) != null ? CFG.PADDING : 0));
                                 }
 
-                                if (((EventOutcome)((EventOption)InGame_Event.this.event.options.get(this.getCurrent())).outcome.get(i)).getStringRight2(((EventOption)InGame_Event.this.event.options.get(this.getCurrent())).bonus_duration) != null) {
-                                    nData.add(new MenuElement_HoverElement_Type_Text(((EventOutcome)((EventOption)InGame_Event.this.event.options.get(this.getCurrent())).outcome.get(i)).getStringRight2(((EventOption)InGame_Event.this.event.options.get(this.getCurrent())).bonus_duration), CFG.FONT_REGULAR_SMALL, Colors.HOVER_RIGHT2));
+                                if (InGame_Event.this.event.options.get(this.getCurrent()).outcome.get(i).getStringRight2(InGame_Event.this.event.options.get(this.getCurrent()).bonus_duration) != null) {
+                                    nData.add(new MenuElement_HoverElement_Type_Text(InGame_Event.this.event.options.get(this.getCurrent()).outcome.get(i).getStringRight2(InGame_Event.this.event.options.get(this.getCurrent()).bonus_duration), CFG.FONT_REGULAR_SMALL, Colors.HOVER_RIGHT2));
                                 }
 
                                 nElements.add(new MenuElement_HoverElement(nData));
@@ -158,7 +150,7 @@ public class InGame_Event extends Menu {
                     this.menuElementHover = new MenuElement_Hover(nElements, nElements.size() == 1);
                 }
             });
-            buttonY += ((MenuElement)menuElements.get(menuElements.size() - 1)).getHeight() + CFG.PADDING;
+            buttonY += menuElements.get(menuElements.size() - 1).getHeight() + CFG.PADDING;
         }
 
         buttonY = 0;
@@ -166,8 +158,8 @@ public class InGame_Event extends Menu {
 
         int inProvinceID;
         for(inProvinceID = menuElements.size(); tMenuHeight < inProvinceID; ++tMenuHeight) {
-            if (buttonY < ((MenuElement)menuElements.get(tMenuHeight)).getPosY() + ((MenuElement)menuElements.get(tMenuHeight)).getHeight() + CFG.PADDING * 2) {
-                buttonY = ((MenuElement)menuElements.get(tMenuHeight)).getPosY() + ((MenuElement)menuElements.get(tMenuHeight)).getHeight() + CFG.PADDING * 2;
+            if (buttonY < menuElements.get(tMenuHeight).getPosY() + menuElements.get(tMenuHeight).getHeight() + CFG.PADDING * 2) {
+                buttonY = menuElements.get(tMenuHeight).getPosY() + menuElements.get(tMenuHeight).getHeight() + CFG.PADDING * 2;
             }
         }
 

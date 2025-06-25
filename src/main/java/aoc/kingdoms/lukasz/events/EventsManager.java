@@ -1248,6 +1248,16 @@ public class EventsManager {
                         } else if (sLine.length > 1) {
                             if (inTrigger) {
                                 switch (sLine[0]) {
+                                    case "is_law":
+                                        if(sLine.length == 3) {
+                                            trigger.addTrigger(new EventTrigger_IsLaw(Integer.parseInt(sLine[1]), Integer.parseInt(sLine[2])), triggerType);
+                                        }else {
+                                            trigger.addTrigger(new EventTrigger_IsLaw(sLine[1], Integer.parseInt(sLine[2]),Integer.parseInt(sLine[3])), triggerType);
+                                        }
+                                        break;
+                                    case "is_player2":
+                                        trigger.addTrigger(new EventTrigger_IsPlayer2(), nextType);
+                                        break;
                                     case "random_chance":
                                         trigger.addTrigger(new EventTrigger_RandomChance(Float.parseFloat(sLine[1])), nextType);
                                         break;
