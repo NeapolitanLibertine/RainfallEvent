@@ -8,12 +8,19 @@ import aoc.kingdoms.lukasz.textures.Images;
 
 public class EventOutcome_Unlock_Tech extends EventOutcome{
     public int techID = 0;
-
+    public int civID = -1;
     public EventOutcome_Unlock_Tech(int i) {
         techID = i;
     }
+    public EventOutcome_Unlock_Tech(int i,int j) {
+        techID = i;
+        civID = j;
+    }
 
     public void updateCiv(int iCivID, int bonus_duration) {
+        if(civID != -1){
+            iCivID = civID;
+        }
         try {
             Game.getCiv(iCivID).addTechnology(techID,false);
             Game.getCiv(iCivID).setAdvantagePoints(Game.getCiv(iCivID).getAdvantagePoints() - 1);

@@ -2308,6 +2308,9 @@ public class EventsManager {
                                         break;
                                     case "unlock_tech":
                                         try {
+                                            if(sLine.length > 2){
+                                                option.outcome.add(new EventOutcome_Unlock_Tech(Integer.parseInt(sLine[1]),Integer.parseInt(sLine[2])));
+                                            }
                                             option.outcome.add(new EventOutcome_Unlock_Tech(Integer.parseInt(sLine[1])));
                                         } catch (Exception var30) {
                                             ex = var30;
