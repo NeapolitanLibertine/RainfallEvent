@@ -30,6 +30,8 @@ public class Event {
     public boolean run_in_background = false;
     public boolean possible_to_run = true;
     public int runCivsID = 0;
+    public EventType eventType = EventType.NORMAL_EVENT;
+    public int layoutID = -1;//-1 undefined layout,use event type to determine layout.
     public List<EventOption> options = new ArrayList();
     public List<EventTrigger> triggersAnd = new ArrayList();
     public List<EventTrigger> triggersAndNot = new ArrayList();

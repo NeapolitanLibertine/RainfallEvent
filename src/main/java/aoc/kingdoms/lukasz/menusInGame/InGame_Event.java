@@ -31,6 +31,8 @@ import aoc.kingdoms.lukasz.textures.ImageManager;
 import aoc.kingdoms.lukasz.textures.Images;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import team.rainfall.rfEvent.config.ConfigManager;
+import team.rainfall.rfEvent.config.EventLayoutConfig;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,15 +46,20 @@ public class InGame_Event extends Menu {
     public int imgWidth = 1;
     public int imgHeight = 1;
     public boolean madeDecision = false;
+    private EventLayoutConfig layout = null;
     public InGame_Event(Event nEvent, int nEventType, int nEventID) {
+        if (nEvent.layoutID == -1) {
+            nEvent.layoutID = 0;
+        }
+        layout = ConfigManager.INSTANCE.getLayoutByID(nEvent.layoutID);
         List<MenuElement> menuElements = new ArrayList();
         this.event = nEvent;
         eventType = nEventType;
         eventID = nEventID;
-        if(event.super_event && event.musicName != null){
+        if (event.super_event && event.musicName != null) {
             try {
                 Game.soundsManager.loadNextMusic(event.musicName);
-            }catch (Exception e){
+            } catch (Exception e) {
                 CFG.exceptionStack(e);
             }
         }
@@ -66,9 +73,9 @@ public class InGame_Event extends Menu {
         EventsManager.loadEventIMG(this.event.image);
 
         try {
-            float fScale = (float)(menuWidth - Images.boxTitleBORDERWIDTH * 2) / (float)EventsManager.eventIMG.getWidth();
+            float fScale = (float) (menuWidth - Images.boxTitleBORDERWIDTH * 2) / (float) EventsManager.eventIMG.getWidth();
             this.imgWidth = menuWidth - Images.boxTitleBORDERWIDTH * 2;
-            this.imgHeight = (int)((float)EventsManager.eventIMG.getHeight() * fScale);
+            this.imgHeight = (int) ((float) EventsManager.eventIMG.getHeight() * fScale);
             buttonY += this.imgHeight;
         } catch (Exception var16) {
             Exception ex = var16;
@@ -76,7 +83,7 @@ public class InGame_Event extends Menu {
         }
 
         if (eventType != 2 && eventType != 5 && !event.no_text) {
-            menuElements.add(new Text_Desc(Game.lang.get(this.event.desc), paddingLeft, buttonY, menuWidth - paddingLeft * 2));
+            menuElements.add(new Text_Desc(Game.lang.get(this.event.desc), (int) (paddingLeft + menuWidth * layout.textX), (int) (buttonY * layout.textY), (int) ((menuWidth - paddingLeft * 2) * layout.textWidth)));
         } else {
             String sResource = "";
             String sPriceChange = "";
@@ -87,16 +94,17 @@ public class InGame_Event extends Menu {
             } catch (Exception var15) {
                 CFG.exceptionStack(var15);
             }
-            if(!event.no_text) {
-                menuElements.add(new Text_Desc(Game.lang.get(this.event.desc, sResource, sPriceChange), paddingLeft, buttonY, menuWidth - paddingLeft * 2));
+            if (!event.no_text) {
+                menuElements.add(new Text_Desc(Game.lang.get(this.event.desc, sResource, sPriceChange), (int) (paddingLeft + menuWidth * layout.textX), (int) (buttonY * layout.textY), (int) ((menuWidth - paddingLeft * 2) * layout.textWidth)));
             }
         }
-
-        buttonY += menuElements.get(menuElements.size() - 1).getHeight() + CFG.PADDING * 2;
-
+        if (!event.no_text && layout.textY >= 1f) {
+            buttonY += menuElements.get(0).getHeight() + CFG.PADDING * 2;
+        }
+        buttonY = (int) (buttonY * layout.buttonY);
         int tMenuHeight;
-        for(tMenuHeight = 0; tMenuHeight < this.event.options.size(); ++tMenuHeight) {
-            menuElements.add(new ButtonGame_Value(Game.lang.get(this.event.options.get(tMenuHeight).name), CFG.FONT_REGULAR, -1, paddingLeft, buttonY, menuWidth - paddingLeft * 2, true, tMenuHeight) {
+        for (tMenuHeight = 0; tMenuHeight < this.event.options.size(); ++tMenuHeight) {
+            menuElements.add(new ButtonGame_Value(Game.lang.get(this.event.options.get(tMenuHeight).name), CFG.FONT_REGULAR, -1, (int) (paddingLeft + menuWidth * layout.buttonX), buttonY, (int) ((menuWidth - paddingLeft * 2) * layout.buttonWidth), true, tMenuHeight) {
                 public void actionElement() {
                     Game.player.removeActiveEvent(InGame_Event.eventType, InGame_Event.eventID);
                     madeDecision = true;
@@ -123,7 +131,7 @@ public class InGame_Event extends Menu {
                     nData.clear();
 
                     try {
-                        for(int i = 0; i < InGame_Event.this.event.options.get(this.getCurrent()).outcome.size(); ++i) {
+                        for (int i = 0; i < InGame_Event.this.event.options.get(this.getCurrent()).outcome.size(); ++i) {
                             if (InGame_Event.this.event.options.get(this.getCurrent()).outcome.get(i).getStringLeft() != null) {
                                 nData.add(new MenuElement_HoverElement_Type_Text(InGame_Event.this.event.options.get(this.getCurrent()).outcome.get(i).getStringLeft(), CFG.FONT_REGULAR_SMALL));
                                 if (InGame_Event.this.event.options.get(this.getCurrent()).outcome.get(i).getStringRight() != null) {
@@ -157,7 +165,7 @@ public class InGame_Event extends Menu {
         tMenuHeight = 0;
 
         int inProvinceID;
-        for(inProvinceID = menuElements.size(); tMenuHeight < inProvinceID; ++tMenuHeight) {
+        for (inProvinceID = menuElements.size(); tMenuHeight < inProvinceID; ++tMenuHeight) {
             if (buttonY < menuElements.get(tMenuHeight).getPosY() + menuElements.get(tMenuHeight).getHeight() + CFG.PADDING * 2) {
                 buttonY = menuElements.get(tMenuHeight).getPosY() + menuElements.get(tMenuHeight).getHeight() + CFG.PADDING * 2;
             }
@@ -173,14 +181,41 @@ public class InGame_Event extends Menu {
         }
 
         inProvinceID = Math.max(0, inProvinceID);
-        if(event.execPosition >= 0){
+        if (event.execPosition >= 0) {
             inProvinceID = event.execPosition;
         }
-        this.initMenu(new MenuTitleIMG_DoubleText(Game.lang.get(this.event.title), Game.lang.get("EventInX", Game.getProvince(inProvinceID).getProvinceName()), true, false, Images.title600) {
-            public long getTime() {
-                return InGame_Event.lTime;
-            }
-        }, CFG.GAME_WIDTH / 2 - menuWidth / 2, CFG.GAME_HEIGHT / 5, menuWidth, tMenuHeight, menuElements, false, true);
+        if (layout.showTitle){
+            this.initMenu(new MenuTitleIMG_DoubleText(Game.lang.get(this.event.title), Game.lang.get("EventInX", Game.getProvince(inProvinceID).getProvinceName()), true, false, Images.title600) {
+                public long getTime() {
+                    return InGame_Event.lTime;
+                }
+            }, CFG.GAME_WIDTH / 2 - menuWidth / 2, CFG.GAME_HEIGHT / 5, menuWidth, tMenuHeight, menuElements, false, true);
+        }else {
+            this.initMenu(new MenuTitleIMG_DoubleText("", "", true, false, Images.title600) {
+                @Override
+                public void drawGradient(SpriteBatch oSB, int nPosX, int nPosY, int nWidth, Status titleStatus) {
+
+                }
+
+                @Override
+                public void drawText(SpriteBatch oSB, int nPosX, int nPosY, int nWidth, Status titleStatus) {
+
+                }
+
+                @Override
+                public void draw(SpriteBatch oSB, int nPosX, int nPosY, int nWidth, Status titleStatus) {
+                    if (titleStatus == Status.HOVERED || titleStatus == Status.ACTIVE) {
+                        oSB.setColor(new Color(1f, 1f, 1f, 0.15f));
+                        Images.pix.draw(oSB, nPosX, nPosY - 1, nWidth, 1);
+                        Images.pix.draw(oSB, nPosX, nPosY - this.getHeight(), nWidth, 1);
+                    }
+                }
+                public long getTime() {
+                    return InGame_Event.lTime;
+                }
+            }, CFG.GAME_WIDTH / 2 - menuWidth / 2, CFG.GAME_HEIGHT / 5, menuWidth, tMenuHeight, menuElements, false, true);
+
+        }
         this.drawScrollPositionAlways = false;
     }
 
@@ -193,6 +228,7 @@ public class InGame_Event extends Menu {
         if (lTime + 60L >= CFG.currentTimeMillis) {
             iTranslateY = iTranslateY - CFG.BUTTON_HEIGHT + (int)((float)CFG.BUTTON_HEIGHT * ((float)(CFG.currentTimeMillis - lTime) / 60.0F));
         }
+        int height2 = !layout.showTitle ? this.getTitle().getHeight() : 0;
         if(!event.no_background) {
             Renderer.drawBoxCorner(oSB, this.getPosX() + iTranslateX, this.getPosY() - this.getTitle().getHeight() + iTranslateY, this.getWidth(), this.getHeight() + this.getTitle().getHeight() + CFG.PADDING);
             Renderer.drawMenusBox(oSB, this.getPosX() + iTranslateX, this.getPosY() + iTranslateY, this.getWidth(), this.getHeight() + CFG.PADDING, false, Images.insideTop600, Images.insideBot600);
@@ -200,7 +236,7 @@ public class InGame_Event extends Menu {
         oSB.setColor(Color.WHITE);
 
         try {
-            EventsManager.eventIMG.draw(oSB, this.getPosX() + Images.boxTitleBORDERWIDTH + iTranslateX, this.getPosY() + iTranslateY, this.imgWidth, this.imgHeight);
+            EventsManager.eventIMG.draw(oSB, this.getPosX() + Images.boxTitleBORDERWIDTH + iTranslateX, this.getPosY() + iTranslateY - height2, this.imgWidth, this.imgHeight);
             if(!event.no_background) {
                 Renderer.drawBox(oSB, Images.eventCorner, this.getPosX() + Images.boxTitleBORDERWIDTH + iTranslateX, this.getPosY() + iTranslateY, this.imgWidth, this.imgHeight, 1.0F);
                 oSB.setColor(new Color(0.0F, 0.0F, 0.0F, 0.5F));

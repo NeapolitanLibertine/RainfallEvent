@@ -950,7 +950,7 @@ public class EventsManager {
             }
         }
 
-        if (eventsType == 0) {
+        if (eventsType == 0) { 
             iEventsSize = events.size();
         } else if (eventsType == 1) {
             iEventsSiegeSize = eventsSiege.size();
@@ -2747,6 +2747,9 @@ public class EventsManager {
                                         break;
                                     case "execute_at":
                                         nEvent.execPosition = Integer.parseInt(sLine[1]);
+                                        break;
+                                    case "layout":
+                                        nEvent.layoutID = Integer.parseInt(sLine[1]);
                                         break;
                                     case "music_file":
                                         nEvent.musicName = sLine[1];
