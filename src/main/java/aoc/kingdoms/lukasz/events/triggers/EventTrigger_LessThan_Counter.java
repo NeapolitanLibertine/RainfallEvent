@@ -7,8 +7,6 @@ import aoc.kingdoms.lukasz.textures.Images;
 import team.rainfall.rfEvent.Counter;
 import team.rainfall.rfEvent.rfEvent;
 
-import java.util.Iterator;
-
 public class EventTrigger_LessThan_Counter extends EventTrigger_Value{
     public String counterName;
     public int value;
@@ -38,7 +36,7 @@ public class EventTrigger_LessThan_Counter extends EventTrigger_Value{
     }
 
     public String getText2() {
-        return "" + CFG.getPrecision2(this.value, 10) + "%";
+        return CFG.getPrecision2(this.value, 10) + "%";
     }
 
     public String getText3() {

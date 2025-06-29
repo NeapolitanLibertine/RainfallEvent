@@ -36,7 +36,7 @@ public class EventTrigger_MoreThan_Counter extends EventTrigger_Value {
     }
 
     public String getText2() {
-        return "" + CFG.getPrecision2(this.value, 10) + "%";
+        return CFG.getPrecision2(this.value, 10) + "%";
     }
 
     public String getText3() {

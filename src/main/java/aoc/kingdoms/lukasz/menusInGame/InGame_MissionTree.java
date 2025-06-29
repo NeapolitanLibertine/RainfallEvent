@@ -83,9 +83,9 @@ public class InGame_MissionTree
         int tMenuHeight = Math.min(buttonY, CFG.GAME_HEIGHT - menuY - CFG.PADDING * 2);
         int tMaxX = 0;
         int iSize2 = menuElements.size();
-        for (int i2 = 0; i2 < iSize2; ++i2) {
-            if (((MenuElement)menuElements.get(i2)).getPosX() + ((MenuElement)menuElements.get(i2)).getWidth() <= tMaxX) continue;
-            tMaxX = ((MenuElement)menuElements.get(i2)).getPosX() + ((MenuElement)menuElements.get(i2)).getWidth();
+        for (MenuElement menuElement : menuElements) {
+            if (((MenuElement) menuElement).getPosX() + ((MenuElement) menuElement).getWidth() <= tMaxX) continue;
+            tMaxX = ((MenuElement) menuElement).getPosX() + ((MenuElement) menuElement).getWidth();
         }
         menuElements.add(new Empty(0, 0, tMaxX += 100, buttonY));
         buttonY = (int)Math.max((float)buttonY, (float)(MissionTree.iMissionHeight + 15) * ((float)GameValues.inGame.TECH_TREE_NUM_OF_ROWS + 0.25f) + (float)(paddingTop * 2));
@@ -194,7 +194,7 @@ public class InGame_MissionTree
     public class TechLine {
         public boolean unlocked = false;
         public int iMissionID;
-        private Array<Vector2> nPath = new Array();
+        private Array<Vector2> nPath = new Array<>();
         public List<Integer> lPointsX = new ArrayList<Integer>();
         public List<Integer> lPointsY = new ArrayList<Integer>();
 

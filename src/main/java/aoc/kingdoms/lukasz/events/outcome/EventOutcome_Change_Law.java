@@ -3,14 +3,13 @@ package aoc.kingdoms.lukasz.events.outcome;
 import aoc.kingdoms.lukasz.jakowski.CFG;
 import aoc.kingdoms.lukasz.jakowski.Game;
 import aoc.kingdoms.lukasz.map.LawsManager;
-import aoc.kingdoms.lukasz.map.technology.TechnologyTree;
 import aoc.kingdoms.lukasz.textures.Images;
 
 import static aoc.kingdoms.lukasz.map.LawsManager.updateCivBonuses;
 
 public class EventOutcome_Change_Law extends EventOutcome{
-    public int lawID = 0;
-    public int lawStatus = 0;
+    public int lawID;
+    public int lawStatus;
     public int iCivID = -1;
     public EventOutcome_Change_Law(int i,int j) {
         lawID = i;
@@ -27,16 +26,15 @@ public class EventOutcome_Change_Law extends EventOutcome{
             iCivID = this.iCivID;
         }
         try {
-            updateCivBonuses(lawID, (Integer)Game.getCiv(iCivID).laws.get(lawID), iCivID, -1.0F);
+            updateCivBonuses(lawID, Game.getCiv(iCivID).laws.get(lawID), iCivID, -1.0F);
             try {
                 Game.getCiv(iCivID).adoptReform(lawID, lawStatus);
             } catch (Exception ex) {
                 CFG.exceptionStack(ex);
             }
-            updateCivBonuses(lawID, (Integer)Game.getCiv(iCivID).laws.get(lawID), iCivID, 1.0F);
+            updateCivBonuses(lawID, Game.getCiv(iCivID).laws.get(lawID), iCivID, 1.0F);
         } catch (Exception var5) {
-            Exception ex = var5;
-            CFG.exceptionStack(ex);
+            CFG.exceptionStack(var5);
         }
 
     }

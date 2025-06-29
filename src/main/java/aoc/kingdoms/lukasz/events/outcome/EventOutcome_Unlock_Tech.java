@@ -2,7 +2,6 @@ package aoc.kingdoms.lukasz.events.outcome;
 
 import aoc.kingdoms.lukasz.jakowski.CFG;
 import aoc.kingdoms.lukasz.jakowski.Game;
-import aoc.kingdoms.lukasz.map.diplomacy.DiplomacyManager;
 import aoc.kingdoms.lukasz.map.technology.TechnologyTree;
 import aoc.kingdoms.lukasz.textures.Images;
 

@@ -52,7 +52,7 @@ public class InGame_Event extends Menu {
             nEvent.layoutID = 0;
         }
         layout = ConfigManager.INSTANCE.getLayoutByID(nEvent.layoutID);
-        List<MenuElement> menuElements = new ArrayList();
+        List<MenuElement> menuElements = new ArrayList<>();
         this.event = nEvent;
         eventType = nEventType;
         eventID = nEventID;
@@ -128,8 +128,8 @@ public class InGame_Event extends Menu {
                 }
 
                 public void buildElementHover() {
-                    List<MenuElement_HoverElement> nElements = new ArrayList();
-                    List<MenuElement_HoverElement_Type> nData = new ArrayList();
+                    List<MenuElement_HoverElement> nElements = new ArrayList<>();
+                    List<MenuElement_HoverElement_Type> nData = new ArrayList<>();
                     nData.add(new MenuElement_HoverElement_Type_TextTitle_BG(this.getText(), CFG.FONT_BOLD, Colors.HOVER_GOLD));
                     nElements.add(new MenuElement_HoverElement(nData));
                     nData.clear();
@@ -248,7 +248,7 @@ public class InGame_Event extends Menu {
                 Images.gradientXY.draw(oSB, this.getPosX() + Images.boxTitleBORDERWIDTH + iTranslateX, this.getPosY() + this.imgHeight + iTranslateY, this.imgWidth, CFG.PADDING * 2, false, true);
             }
             oSB.setColor(Color.WHITE);
-        } catch (Exception var7) {
+        } catch (Exception ignored) {
         }
         super.draw(oSB, iTranslateX, iTranslateY, menuIsActive, titleStatus);
     }

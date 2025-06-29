@@ -1,10 +1,8 @@
 package aoc.kingdoms.lukasz.events.triggers;
 
 
-import aoc.kingdoms.lukasz.jakowski.CFG;
 import aoc.kingdoms.lukasz.jakowski.Game;
 import aoc.kingdoms.lukasz.textures.Images;
-import team.rainfall.rfEvent.ExpressionProcessor;
 
 public class EventTrigger_IsLaw extends EventTrigger_Value{
     public int iCivID = -1;

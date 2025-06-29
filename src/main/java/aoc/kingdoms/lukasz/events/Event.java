@@ -32,11 +32,11 @@ public class Event {
     public int preprocessorID = -1;
     public int runCivsID = 0;
     public int layoutID = -1;//-1 undefined layout,use event type to determine layout.
-    public List<EventOption> options = new ArrayList();
-    public List<EventTrigger> triggersAnd = new ArrayList();
-    public List<EventTrigger> triggersAndNot = new ArrayList();
-    public List<EventTrigger> triggersOr = new ArrayList();
-    public List<EventTrigger> triggersOrNot = new ArrayList();
+    public List<EventOption> options = new ArrayList<>();
+    public List<EventTrigger> triggersAnd = new ArrayList<>();
+    public List<EventTrigger> triggersAndNot = new ArrayList<>();
+    public List<EventTrigger> triggersOr = new ArrayList<>();
+    public List<EventTrigger> triggersOrNot = new ArrayList<>();
 
     public Event() {
     }
@@ -122,6 +122,6 @@ public class Event {
     }
 
     public boolean addEvent() {
-        return this.triggersAnd.size() + this.triggersOr.size() + this.triggersOrNot.size() + this.triggersAndNot.size() > 0 && this.options.size() > 0;
+        return this.triggersAnd.size() + this.triggersOr.size() + this.triggersOrNot.size() + this.triggersAndNot.size() > 0 && !this.options.isEmpty();
     }
 }

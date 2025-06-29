@@ -123,7 +123,6 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.Texture.TextureWrap;
 import com.badlogic.gdx.utils.GdxRuntimeException;
-import com.codedisaster.steamworks.SteamUGC;
 import team.rainfall.rfEvent.rfEvent;
 
 import java.util.ArrayList;
@@ -132,23 +131,23 @@ import java.util.List;
 public class EventsManager {
     public static Image eventIMG = null;
     public static String loadedEventIMG = "";
-    public static List<Event> events = new ArrayList();
+    public static List<Event> events = new ArrayList<>();
     public static int iEventsSize = 0;
-    public static List<Event> eventsSiege = new ArrayList();
+    public static List<Event> eventsSiege = new ArrayList<>();
     public static int iEventsSiegeSize = 0;
-    public static List<Event> eventsGlobal = new ArrayList();
+    public static List<Event> eventsGlobal = new ArrayList<>();
     public static int iEventsGlobalSize = 0;
-    public static List<Event> eventsScenario = new ArrayList();
+    public static List<Event> eventsScenario = new ArrayList<>();
     public static int iEventsScenarioSize = 0;
-    public static List<Event> eventsSiegeScenario = new ArrayList();
+    public static List<Event> eventsSiegeScenario = new ArrayList<>();
     public static int iEventsSiegeScenarioSize = 0;
-    public static List<Event> eventsGlobalScenario = new ArrayList();
+    public static List<Event> eventsGlobalScenario = new ArrayList<>();
     public static int iEventsGlobalScenarioSize = 0;
     public static CivilizationEventsData_Variables eventsGlobal_Variables = new CivilizationEventsData_Variables();
-    public static List<Image> missionImages = new ArrayList();
-    public static List<String> runEvent = new ArrayList();
-    public static List<Event_ExactDate> exactDate_Events = new ArrayList();
-    public static List<Event_ExactDate> exactDate_EventsScenario = new ArrayList();
+    public static List<Image> missionImages = new ArrayList<>();
+    public static List<String> runEvent = new ArrayList<>();
+    public static List<Event_ExactDate> exactDate_Events = new ArrayList<>();
+    public static List<Event_ExactDate> exactDate_EventsScenario = new ArrayList<>();
     public static int runEventGlobalID = 0;
     public static int runEventGlobalID_Scenario = 0;
     public static String loadScenarioEventsTag = "";
@@ -668,7 +667,7 @@ public class EventsManager {
                             if (!updateMenu) {
                                 updateMenu = updateMenu || !eventsGlobal.get(runEventGlobalID).options.isEmpty() && !eventsGlobal.get(runEventGlobalID).options.get(0).outcome.isEmpty() && ResourcesManager.hasResource(Game.player.iCivID, eventsGlobal.get(runEventGlobalID).options.get(0).outcome.get(0).getValue1());
                             }
-                        } catch (Exception var5) {
+                        } catch (Exception ignored) {
                         }
 
                         eventsGlobal.get(runEventGlobalID).options.get(0).executeOutcome();
@@ -710,7 +709,7 @@ public class EventsManager {
                             if (!updateMenu) {
                                 updateMenu = updateMenu || !eventsGlobalScenario.get(runEventGlobalID_Scenario).options.isEmpty() && !eventsGlobalScenario.get(runEventGlobalID_Scenario).options.get(0).outcome.isEmpty() && ResourcesManager.hasResource(Game.player.iCivID, eventsGlobalScenario.get(runEventGlobalID_Scenario).options.get(0).outcome.get(0).getValue1());
                             }
-                        } catch (Exception var3) {
+                        } catch (Exception ignored) {
                         }
 
                         eventsGlobalScenario.get(runEventGlobalID_Scenario).options.get(0).executeOutcome();
@@ -800,24 +799,24 @@ public class EventsManager {
                     FileHandle fileWrite = Gdx.files.local("game/events/list_common.txt");
                     fileWrite.writeString("", false);
 
-                    for(int i = 0; i < files.length; ++i) {
-                        fileWrite.writeString(files[i].name() + ";", true);
+                    for (FileHandle file : files) {
+                        fileWrite.writeString(file.name() + ";", true);
                     }
 
                     FileHandle[] files2 = Gdx.files.local("game/events/siege/").list();
                     FileHandle fileWrite2 = Gdx.files.local("game/events/list_siege.txt");
                     fileWrite2.writeString("", false);
 
-                    for(int i = 0; i < files2.length; ++i) {
-                        fileWrite2.writeString(files2[i].name() + ";", true);
+                    for (FileHandle handle : files2) {
+                        fileWrite2.writeString(handle.name() + ";", true);
                     }
 
                     FileHandle[] files3 = Gdx.files.local("game/events/global/").list();
                     FileHandle fileWrite3 = Gdx.files.local("game/events/list_global.txt");
                     fileWrite3.writeString("", false);
 
-                    for(int i = 0; i < files3.length; ++i) {
-                        fileWrite3.writeString(files3[i].name() + ";", true);
+                    for (FileHandle fileHandle : files3) {
+                        fileWrite3.writeString(fileHandle.name() + ";", true);
                     }
                 }
             } catch (Exception var9) {
@@ -2051,7 +2050,7 @@ public class EventsManager {
                                         option.outcome.add(new EventOutcome_AI_Aggression(Integer.parseInt(sLine[1])));
                                         break;
                                     case "add_new_army":
-                                        List<Integer> unitID = new ArrayList();
+                                        List<Integer> unitID = new ArrayList<>();
                                         nProvinces = new ArrayList();
 
                                         try {

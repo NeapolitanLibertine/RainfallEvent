@@ -2048,14 +2048,14 @@ public class Expression {
                 String innerExp = innerVariable.getString();
                 if (isNumber(innerExp)) { // if it is a number, then we don't
                     // expan in the RPN
-                    result.append(t.toString());
+                    result.append(t);
                 } else { // expand the nested variable to its RPN representation
                     Expression exp = createEmbeddedExpression(innerExp);
                     String nestedExpRpn = exp.toRPN();
                     result.append(nestedExpRpn);
                 }
             } else {
-                result.append(t.toString());
+                result.append(t);
             }
         }
         return result.toString();
