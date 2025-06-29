@@ -175,9 +175,11 @@ public class EventsManager {
     }
 
     public static final void runEvents(int turnID) {
+        //Add variable "RainfallEvent" to neu civ
         if(!Game.getCiv(0).eventsDataVariables.v.contains("RainfallEvent")){
             Game.getCiv(0).eventsDataVariables.addVariable("RainfallEvent");
         }
+
         int i;
         if (!runEvent.isEmpty()) {
             for(i = runEvent.size() - 1; i >= 0; --i) {
@@ -197,6 +199,8 @@ public class EventsManager {
                 for(j = events.get(i).runCivsID % GameValues.gameUpdate.GAME_UPDATE_EVENTS_CIVS; j < Game.getCivsSize(); j += GameValues.gameUpdate.GAME_UPDATE_EVENTS_CIVS) {
                     if (Game.getCiv(j).getNumOfProvinces() > 0 && (!events.get(i).only_once || !Game.getCiv(j).eventsDataVariables.hasVariable(events.get(i).id)) && events.get(i).possible_to_run && events.get(i).runTriggers(j)) {
                         updateRandomProvinceID(j);
+                        //Run pre-processor
+                        events.get(i).runPreprocessor(j);
                         if (j == Game.player.iCivID && !events.get(i).run_in_background) {
                             Game.player.addActiveEvent(0, i, 0);
                             rfEvent.format(EventsManager.events.get(i),j);
@@ -250,6 +254,7 @@ public class EventsManager {
 
                         if (Game.getCiv(j).getNumOfProvinces() > 0 && (!eventsScenario.get(i).only_once || !Game.getCiv(j).eventsDataVariables.hasVariable(eventsScenario.get(i).id)) && eventsScenario.get(i).possible_to_run && eventsScenario.get(i).runTriggers(j)) {
                             updateRandomProvinceID(j);
+                            eventsScenario.get(i).runPreprocessor(j);
                             if (j == Game.player.iCivID && !eventsScenario.get(i).run_in_background) {
                                 Game.player.addActiveEvent(3, i, 0);
                                 rfEvent.format(EventsManager.eventsScenario.get(i),j);
@@ -317,6 +322,7 @@ public class EventsManager {
                         for(j = 1; j < Game.getCivsSize(); ++j) {
                             if (Game.getCiv(j).getNumOfProvinces() > 0 && (!eventsScenario.get(i).only_once || !Game.getCiv(j).eventsDataVariables.hasVariable(eventsScenario.get(i).id)) && eventsScenario.get(i).runTriggers(j)) {
                                 updateRandomProvinceID(j);
+                                eventsScenario.get(i).runPreprocessor(j);
                                 if (j == Game.player.iCivID && !eventsScenario.get(i).run_in_background) {
                                     rfEvent.format(EventsManager.eventsScenario.get(i),j);
                                     Game.player.addActiveEvent(3, i, 0);
@@ -369,6 +375,7 @@ public class EventsManager {
                     for(j = 1; j < Game.getCivsSize(); ++j) {
                         if (Game.getCiv(j).getNumOfProvinces() > 0 && (!events.get(i).only_once || !Game.getCiv(j).eventsDataVariables.hasVariable(events.get(i).id)) && events.get(i).runTriggers(j)) {
                             updateRandomProvinceID(j);
+                            events.get(i).runPreprocessor(j);
                             if (j == Game.player.iCivID && !events.get(i).run_in_background) {
                                 rfEvent.format(EventsManager.events.get(i),j);
                                 Game.player.addActiveEvent(0, i, 0);
@@ -435,6 +442,8 @@ public class EventsManager {
                         for(j = 1; j < Game.getCivsSize(); ++j) {
                             if (Game.getCiv(j).getNumOfProvinces() > 0 && (!events.get(exactDate_Events.get(z).eventID).only_once || !Game.getCiv(j).eventsDataVariables.hasVariable(events.get(exactDate_Events.get(z).eventID).id)) && events.get(exactDate_Events.get(z).eventID).runTriggers(j)) {
                                 updateRandomProvinceID(j);
+                                events.get(exactDate_Events.get(z).eventID).runPreprocessor(j);
+
                                 if (j == Game.player.iCivID && !events.get(exactDate_Events.get(z).eventID).run_in_background) {
                                     rfEvent.format(EventsManager.events.get(exactDate_Events.get(z).eventID),j);
                                     Game.player.addActiveEvent(0, exactDate_Events.get(z).eventID, 0);
@@ -488,6 +497,7 @@ public class EventsManager {
                         for(j = 1; j < Game.getCivsSize(); ++j) {
                             if (Game.getCiv(j).getNumOfProvinces() > 0 && (!eventsScenario.get(exactDate_EventsScenario.get(z).eventID).only_once || !Game.getCiv(j).eventsDataVariables.hasVariable(eventsScenario.get(exactDate_EventsScenario.get(z).eventID).id)) && eventsScenario.get(exactDate_EventsScenario.get(z).eventID).runTriggers(j)) {
                                 updateRandomProvinceID(j);
+                                eventsScenario.get(exactDate_EventsScenario.get(z).eventID).runPreprocessor(j);
                                 if (j == Game.player.iCivID && !eventsScenario.get(exactDate_EventsScenario.get(z).eventID).run_in_background) {
                                     rfEvent.format(EventsManager.eventsScenario.get(exactDate_EventsScenario.get(z).eventID),j);
                                     Game.player.addActiveEvent(3, exactDate_EventsScenario.get(z).eventID, 0);

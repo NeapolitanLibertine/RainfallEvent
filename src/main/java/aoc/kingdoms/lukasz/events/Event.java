@@ -29,6 +29,7 @@ public class Event {
     public boolean popUp = false;
     public boolean run_in_background = false;
     public boolean possible_to_run = true;
+    public int preprocessorID = -1;
     public int runCivsID = 0;
     public int layoutID = -1;//-1 undefined layout,use event type to determine layout.
     public List<EventOption> options = new ArrayList();
@@ -56,7 +57,18 @@ public class Event {
         }
 
     }
-
+    public void runPreprocessor(int i){
+        if(preprocessorID == -1){
+            for(int j = 0;j < options.size();j++){
+                if(options.get(j).name.equals("pre_processor")){
+                    preprocessorID = j;
+                    options.get(j).ai = 0f;
+                    break;
+                }
+            }
+        }
+        options.get(preprocessorID).executeOutcome(i);
+    }
     public final boolean runTriggers(int iCivID) {
         int iProvinceID = 0;
 

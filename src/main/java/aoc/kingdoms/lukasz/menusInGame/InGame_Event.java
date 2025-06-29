@@ -104,6 +104,10 @@ public class InGame_Event extends Menu {
         buttonY = (int) (buttonY * layout.buttonY);
         int tMenuHeight;
         for (tMenuHeight = 0; tMenuHeight < this.event.options.size(); ++tMenuHeight) {
+            //Skip preprocessor option
+            if(event.preprocessorID == tMenuHeight){
+                continue;
+            }
             menuElements.add(new ButtonGame_Value(Game.lang.get(this.event.options.get(tMenuHeight).name), CFG.FONT_REGULAR, -1, (int) (paddingLeft + menuWidth * layout.buttonX), buttonY, (int) ((menuWidth - paddingLeft * 2) * layout.buttonWidth), true, tMenuHeight) {
                 public void actionElement() {
                     Game.player.removeActiveEvent(InGame_Event.eventType, InGame_Event.eventID);
