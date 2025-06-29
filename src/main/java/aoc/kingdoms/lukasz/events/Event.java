@@ -67,7 +67,13 @@ public class Event {
                 }
             }
         }
-        options.get(preprocessorID).executeOutcome(i);
+        if(preprocessorID == -1){
+            //don't try it again
+            preprocessorID = -2;
+        }
+        if(preprocessorID >= 0) {
+            options.get(preprocessorID).executeOutcome(i);
+        }
     }
     public final boolean runTriggers(int iCivID) {
         int iProvinceID = 0;

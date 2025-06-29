@@ -255,7 +255,7 @@ public class InGame_Event extends Menu {
 
     public void setVisible(boolean visible) {
         if(!madeDecision && !visible && event.important){
-            Game.menuManager.addToast_Error("NotAllowedToCloseBeforeDecide");
+            Game.menuManager.addToast_Error(Game.lang.get("NotAllowedToCloseBeforeDecide"));
             return;
         }
         super.setVisible(visible);
