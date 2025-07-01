@@ -69,43 +69,7 @@ import aoc.kingdoms.lukasz.events.outcome.civilizationBonus.EventOutcome_BonusTa
 import aoc.kingdoms.lukasz.events.outcome.civilizationBonus.EventOutcome_BonusUnitsAttack;
 import aoc.kingdoms.lukasz.events.outcome.civilizationBonus.EventOutcome_BonusUnitsDefense;
 import aoc.kingdoms.lukasz.events.outcome.civilizationBonus.EventOutcome_BonusWarScoreCost;
-import aoc.kingdoms.lukasz.events.outcome.province.EventOutcome_Province_Devastation;
-import aoc.kingdoms.lukasz.events.outcome.province.EventOutcome_Province_Devastation_All;
-import aoc.kingdoms.lukasz.events.outcome.province.EventOutcome_Province_Devastation_Capital;
-import aoc.kingdoms.lukasz.events.outcome.province.EventOutcome_Province_Devastation_ID;
-import aoc.kingdoms.lukasz.events.outcome.province.EventOutcome_Province_Economy;
-import aoc.kingdoms.lukasz.events.outcome.province.EventOutcome_Province_Economy_All;
-import aoc.kingdoms.lukasz.events.outcome.province.EventOutcome_Province_Economy_Capital;
-import aoc.kingdoms.lukasz.events.outcome.province.EventOutcome_Province_Economy_ID;
-import aoc.kingdoms.lukasz.events.outcome.province.EventOutcome_Province_GrowthRate;
-import aoc.kingdoms.lukasz.events.outcome.province.EventOutcome_Province_GrowthRate_All;
-import aoc.kingdoms.lukasz.events.outcome.province.EventOutcome_Province_GrowthRate_Capital;
-import aoc.kingdoms.lukasz.events.outcome.province.EventOutcome_Province_GrowthRate_ID;
-import aoc.kingdoms.lukasz.events.outcome.province.EventOutcome_Province_ID_CoreAdd;
-import aoc.kingdoms.lukasz.events.outcome.province.EventOutcome_Province_ID_CoreRemove;
-import aoc.kingdoms.lukasz.events.outcome.province.EventOutcome_Province_Infrastructure;
-import aoc.kingdoms.lukasz.events.outcome.province.EventOutcome_Province_Infrastructure_All;
-import aoc.kingdoms.lukasz.events.outcome.province.EventOutcome_Province_Infrastructure_Capital;
-import aoc.kingdoms.lukasz.events.outcome.province.EventOutcome_Province_Infrastructure_ID;
-import aoc.kingdoms.lukasz.events.outcome.province.EventOutcome_Province_Manpower;
-import aoc.kingdoms.lukasz.events.outcome.province.EventOutcome_Province_Manpower_All;
-import aoc.kingdoms.lukasz.events.outcome.province.EventOutcome_Province_Manpower_Capital;
-import aoc.kingdoms.lukasz.events.outcome.province.EventOutcome_Province_Manpower_ID;
-import aoc.kingdoms.lukasz.events.outcome.province.EventOutcome_Province_Population;
-import aoc.kingdoms.lukasz.events.outcome.province.EventOutcome_Province_Population_All;
-import aoc.kingdoms.lukasz.events.outcome.province.EventOutcome_Province_Population_Capital;
-import aoc.kingdoms.lukasz.events.outcome.province.EventOutcome_Province_Religion;
-import aoc.kingdoms.lukasz.events.outcome.province.EventOutcome_Province_Religion_All;
-import aoc.kingdoms.lukasz.events.outcome.province.EventOutcome_Province_Religion_Capital;
-import aoc.kingdoms.lukasz.events.outcome.province.EventOutcome_Province_Religion_ID;
-import aoc.kingdoms.lukasz.events.outcome.province.EventOutcome_Province_TaxEfficiency;
-import aoc.kingdoms.lukasz.events.outcome.province.EventOutcome_Province_TaxEfficiency_All;
-import aoc.kingdoms.lukasz.events.outcome.province.EventOutcome_Province_TaxEfficiency_Capital;
-import aoc.kingdoms.lukasz.events.outcome.province.EventOutcome_Province_TaxEfficiency_ID;
-import aoc.kingdoms.lukasz.events.outcome.province.EventOutcome_Province_Unrest;
-import aoc.kingdoms.lukasz.events.outcome.province.EventOutcome_Province_Unrest_All;
-import aoc.kingdoms.lukasz.events.outcome.province.EventOutcome_Province_Unrest_Capital;
-import aoc.kingdoms.lukasz.events.outcome.province.EventOutcome_Province_Unrest_ID;
+import aoc.kingdoms.lukasz.events.outcome.province.*;
 import aoc.kingdoms.lukasz.events.triggers.*;
 import aoc.kingdoms.lukasz.jakowski.CFG;
 import aoc.kingdoms.lukasz.jakowski.FileManager;
@@ -2409,6 +2373,9 @@ public class EventsManager {
                                         break;
                                     case "province_add_core_civ":
                                         option.outcome.add(new EventOutcome_Province_ID_CoreAdd(sLine[1], sLine[2]));
+                                        break;
+                                    case "province_nuke":
+                                        option.outcome.add(new EventOutcome_Province_ID_Nuke(sLine[1],sLine[2]));
                                         break;
                                     case "province_remove_core_civ":
                                         option.outcome.add(new EventOutcome_Province_ID_CoreRemove(sLine[1], sLine[2]));
