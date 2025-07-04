@@ -10,4 +10,6 @@ public class EventLayoutConfig {
     public float textX = 0f;
     public float textWidth = 1f;
     public boolean showTitle = true;
+    public String buttonTexture = null;
+    public String buttonActiveTexture = null;
 }

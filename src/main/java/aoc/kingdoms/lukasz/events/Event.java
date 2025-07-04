@@ -68,7 +68,6 @@ public class Event {
             }
         }
         if(preprocessorID == -1){
-            //don't try it again
             preprocessorID = -2;
         }
         if(preprocessorID >= 0) {

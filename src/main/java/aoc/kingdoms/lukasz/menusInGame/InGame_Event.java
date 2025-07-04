@@ -33,6 +33,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import team.rainfall.rfEvent.config.ConfigManager;
 import team.rainfall.rfEvent.config.EventLayoutConfig;
+import team.rainfall.rfEvent.rfEventImages;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -127,6 +128,13 @@ public class InGame_Event extends Menu {
                     SteamAchievementsManager.unlockAchievement(SteamAchievementsManager.EVENT_RES);
                 }
 
+                public int getButtonBG() {
+                    return layout.buttonTexture != null? rfEventImages.getBtnImageID(layout.id) :Images.buttonGame;
+                }
+
+                public int getButtonBG_Active() {
+                    return layout.buttonActiveTexture != null? rfEventImages.getBtnActiveImageID(layout.id) :Images.buttonGameH;
+                }
                 public void buildElementHover() {
                     List<MenuElement_HoverElement> nElements = new ArrayList<>();
                     List<MenuElement_HoverElement_Type> nData = new ArrayList<>();

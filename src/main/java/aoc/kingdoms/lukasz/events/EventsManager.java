@@ -139,13 +139,13 @@ public class EventsManager {
 
     public static final void runEvents(int turnID) {
         //Add variable "RainfallEvent" to neu civ
-        if(!Game.getCiv(0).eventsDataVariables.v.contains("RainfallEvent")){
+        if (!Game.getCiv(0).eventsDataVariables.v.contains("RainfallEvent")) {
             Game.getCiv(0).eventsDataVariables.addVariable("RainfallEvent");
         }
 
         int i;
         if (!runEvent.isEmpty()) {
-            for(i = runEvent.size() - 1; i >= 0; --i) {
+            for (i = runEvent.size() - 1; i >= 0; --i) {
                 runEvent(i);
             }
         }
@@ -158,15 +158,15 @@ public class EventsManager {
             int takeID;
             int a;
             int currentScore;
-            for(i = turnID % GameValues.gameUpdate.GAME_UPDATE_EVENTS_EVENTS; i < iEventsSize; i += GameValues.gameUpdate.GAME_UPDATE_EVENTS_EVENTS) {
-                for(j = events.get(i).runCivsID % GameValues.gameUpdate.GAME_UPDATE_EVENTS_CIVS; j < Game.getCivsSize(); j += GameValues.gameUpdate.GAME_UPDATE_EVENTS_CIVS) {
+            for (i = turnID % GameValues.gameUpdate.GAME_UPDATE_EVENTS_EVENTS; i < iEventsSize; i += GameValues.gameUpdate.GAME_UPDATE_EVENTS_EVENTS) {
+                for (j = events.get(i).runCivsID % GameValues.gameUpdate.GAME_UPDATE_EVENTS_CIVS; j < Game.getCivsSize(); j += GameValues.gameUpdate.GAME_UPDATE_EVENTS_CIVS) {
                     if (Game.getCiv(j).getNumOfProvinces() > 0 && (!events.get(i).only_once || !Game.getCiv(j).eventsDataVariables.hasVariable(events.get(i).id)) && events.get(i).possible_to_run && events.get(i).runTriggers(j)) {
                         updateRandomProvinceID(j);
                         //Run pre-processor
                         events.get(i).runPreprocessor(j);
                         if (j == Game.player.iCivID && !events.get(i).run_in_background) {
                             Game.player.addActiveEvent(0, i, 0);
-                            rfEvent.format(EventsManager.events.get(i),j);
+                            rfEvent.format(EventsManager.events.get(i), j);
                             Game.addSimpleTask(new Game.SimpleTask(events.get(i).id + "0", i) {
                                 public void update() {
                                     Game.menuManager.rebuildInGame_Right();
@@ -181,8 +181,8 @@ public class EventsManager {
                         } else if (!events.get(i).options.isEmpty()) {
                             score = 0;
 
-                            for(takeID = 0; takeID < events.get(i).options.size(); ++takeID) {
-                                score = (int)((float)score + events.get(i).options.get(takeID).ai);
+                            for (takeID = 0; takeID < events.get(i).options.size(); ++takeID) {
+                                score = (int) ((float) score + events.get(i).options.get(takeID).ai);
                             }
 
                             takeID = 0;
@@ -190,8 +190,8 @@ public class EventsManager {
                                 score = Game.oR.nextInt(score);
                                 a = 0;
 
-                                for(currentScore = 0; a < events.get(i).options.size(); ++a) {
-                                    if(score <= events.get(i).options.get(a).ai + currentScore){
+                                for (currentScore = 0; a < events.get(i).options.size(); ++a) {
+                                    if (score <= events.get(i).options.get(a).ai + currentScore) {
                                         takeID = a;
                                         break;
                                     }
@@ -212,15 +212,15 @@ public class EventsManager {
             }
 
             if (Game.SCENARIO_EVENTS) {
-                for(i = turnID % GameValues.gameUpdate.GAME_UPDATE_EVENTS_EVENTS; i < iEventsScenarioSize; i += GameValues.gameUpdate.GAME_UPDATE_EVENTS_EVENTS) {
-                    for(j = eventsScenario.get(i).runCivsID % GameValues.gameUpdate.GAME_UPDATE_EVENTS_CIVS; j < Game.getCivsSize(); j += GameValues.gameUpdate.GAME_UPDATE_EVENTS_CIVS) {
+                for (i = turnID % GameValues.gameUpdate.GAME_UPDATE_EVENTS_EVENTS; i < iEventsScenarioSize; i += GameValues.gameUpdate.GAME_UPDATE_EVENTS_EVENTS) {
+                    for (j = eventsScenario.get(i).runCivsID % GameValues.gameUpdate.GAME_UPDATE_EVENTS_CIVS; j < Game.getCivsSize(); j += GameValues.gameUpdate.GAME_UPDATE_EVENTS_CIVS) {
 
                         if (Game.getCiv(j).getNumOfProvinces() > 0 && (!eventsScenario.get(i).only_once || !Game.getCiv(j).eventsDataVariables.hasVariable(eventsScenario.get(i).id)) && eventsScenario.get(i).possible_to_run && eventsScenario.get(i).runTriggers(j)) {
                             updateRandomProvinceID(j);
                             eventsScenario.get(i).runPreprocessor(j);
                             if (j == Game.player.iCivID && !eventsScenario.get(i).run_in_background) {
                                 Game.player.addActiveEvent(3, i, 0);
-                                rfEvent.format(EventsManager.eventsScenario.get(i),j);
+                                rfEvent.format(EventsManager.eventsScenario.get(i), j);
                                 Game.addSimpleTask(new Game.SimpleTask(eventsScenario.get(i).id + "3", i) {
                                     public void update() {
                                         Game.menuManager.rebuildInGame_Right();
@@ -235,8 +235,8 @@ public class EventsManager {
                             } else if (!eventsScenario.get(i).options.isEmpty()) {
                                 score = 0;
 
-                                for(takeID = 0; takeID < eventsScenario.get(i).options.size(); ++takeID) {
-                                    score = (int)((float)score + eventsScenario.get(i).options.get(takeID).ai);
+                                for (takeID = 0; takeID < eventsScenario.get(i).options.size(); ++takeID) {
+                                    score = (int) ((float) score + eventsScenario.get(i).options.get(takeID).ai);
                                 }
 
                                 takeID = 0;
@@ -244,8 +244,8 @@ public class EventsManager {
                                     score = Game.oR.nextInt(score);
                                     a = 0;
 
-                                    for(currentScore = 0; a < eventsScenario.get(i).options.size(); ++a) {
-                                        if(score <= eventsScenario.get(i).options.get(a).ai + currentScore){
+                                    for (currentScore = 0; a < eventsScenario.get(i).options.size(); ++a) {
+                                        if (score <= eventsScenario.get(i).options.get(a).ai + currentScore) {
                                             takeID = a;
                                             break;
                                         }
@@ -280,14 +280,14 @@ public class EventsManager {
             int currentScore;
             int i;
             if (Game.SCENARIO_EVENTS) {
-                for(i = 0; i < iEventsScenarioSize; ++i) {
+                for (i = 0; i < iEventsScenarioSize; ++i) {
                     if (eventsScenario.get(i).id.equals(runEvent.get(runID))) {
-                        for(j = 1; j < Game.getCivsSize(); ++j) {
+                        for (j = 1; j < Game.getCivsSize(); ++j) {
                             if (Game.getCiv(j).getNumOfProvinces() > 0 && (!eventsScenario.get(i).only_once || !Game.getCiv(j).eventsDataVariables.hasVariable(eventsScenario.get(i).id)) && eventsScenario.get(i).runTriggers(j)) {
                                 updateRandomProvinceID(j);
                                 eventsScenario.get(i).runPreprocessor(j);
                                 if (j == Game.player.iCivID && !eventsScenario.get(i).run_in_background) {
-                                    rfEvent.format(EventsManager.eventsScenario.get(i),j);
+                                    rfEvent.format(EventsManager.eventsScenario.get(i), j);
                                     Game.player.addActiveEvent(3, i, 0);
                                     Game.addSimpleTask(new Game.SimpleTask(eventsScenario.get(i).id + "3", i) {
                                         public void update() {
@@ -303,8 +303,8 @@ public class EventsManager {
                                 } else if (!eventsScenario.get(i).options.isEmpty()) {
                                     score = 0;
 
-                                    for(takeID = 0; takeID < eventsScenario.get(i).options.size(); ++takeID) {
-                                        score = (int)((float)score + eventsScenario.get(i).options.get(takeID).ai);
+                                    for (takeID = 0; takeID < eventsScenario.get(i).options.size(); ++takeID) {
+                                        score = (int) ((float) score + eventsScenario.get(i).options.get(takeID).ai);
                                     }
 
                                     takeID = 0;
@@ -312,8 +312,8 @@ public class EventsManager {
                                         score = Game.oR.nextInt(score);
                                         a = 0;
 
-                                        for(currentScore = 0; a < eventsScenario.get(i).options.size(); ++a) {
-                                            if(score <= eventsScenario.get(i).options.get(a).ai + currentScore){
+                                        for (currentScore = 0; a < eventsScenario.get(i).options.size(); ++a) {
+                                            if (score <= eventsScenario.get(i).options.get(a).ai + currentScore) {
                                                 takeID = a;
                                                 break;
                                             }
@@ -333,14 +333,14 @@ public class EventsManager {
                 }
             }
 
-            for(i = 0; i < iEventsSize; ++i) {
+            for (i = 0; i < iEventsSize; ++i) {
                 if (events.get(i).id.equals(runEvent.get(runID))) {
-                    for(j = 1; j < Game.getCivsSize(); ++j) {
+                    for (j = 1; j < Game.getCivsSize(); ++j) {
                         if (Game.getCiv(j).getNumOfProvinces() > 0 && (!events.get(i).only_once || !Game.getCiv(j).eventsDataVariables.hasVariable(events.get(i).id)) && events.get(i).runTriggers(j)) {
                             updateRandomProvinceID(j);
                             events.get(i).runPreprocessor(j);
                             if (j == Game.player.iCivID && !events.get(i).run_in_background) {
-                                rfEvent.format(EventsManager.events.get(i),j);
+                                rfEvent.format(EventsManager.events.get(i), j);
                                 Game.player.addActiveEvent(0, i, 0);
                                 Game.addSimpleTask(new Game.SimpleTask(events.get(i).id + "0", i) {
                                     public void update() {
@@ -356,8 +356,8 @@ public class EventsManager {
                             } else if (!events.get(i).options.isEmpty()) {
                                 score = 0;
 
-                                for(takeID = 0; takeID < events.get(i).options.size(); ++takeID) {
-                                    score = (int)((float)score + events.get(i).options.get(takeID).ai);
+                                for (takeID = 0; takeID < events.get(i).options.size(); ++takeID) {
+                                    score = (int) ((float) score + events.get(i).options.get(takeID).ai);
                                 }
 
                                 takeID = 0;
@@ -365,8 +365,8 @@ public class EventsManager {
                                     score = Game.oR.nextInt(score);
                                     a = 0;
 
-                                    for(currentScore = 0; a < events.get(i).options.size(); ++a) {
-                                        if(score <= events.get(i).options.get(a).ai + currentScore){
+                                    for (currentScore = 0; a < events.get(i).options.size(); ++a) {
+                                        if (score <= events.get(i).options.get(a).ai + currentScore) {
                                             takeID = a;
                                             break;
                                         }
@@ -400,15 +400,15 @@ public class EventsManager {
             int currentScore;
             int z;
             if (!exactDate_Events.isEmpty()) {
-                for(z = exactDate_Events.size() - 1; z >= 0; --z) {
+                for (z = exactDate_Events.size() - 1; z >= 0; --z) {
                     if (Game_Calendar.currentYear > exactDate_Events.get(z).year || Game_Calendar.currentYear >= exactDate_Events.get(z).year && Game_Calendar.currentMonth > exactDate_Events.get(z).month || Game_Calendar.currentYear >= exactDate_Events.get(z).year && Game_Calendar.currentMonth >= exactDate_Events.get(z).month && Game_Calendar.currentDay >= exactDate_Events.get(z).day) {
-                        for(j = 1; j < Game.getCivsSize(); ++j) {
+                        for (j = 1; j < Game.getCivsSize(); ++j) {
                             if (Game.getCiv(j).getNumOfProvinces() > 0 && (!events.get(exactDate_Events.get(z).eventID).only_once || !Game.getCiv(j).eventsDataVariables.hasVariable(events.get(exactDate_Events.get(z).eventID).id)) && events.get(exactDate_Events.get(z).eventID).runTriggers(j)) {
                                 updateRandomProvinceID(j);
                                 events.get(exactDate_Events.get(z).eventID).runPreprocessor(j);
 
                                 if (j == Game.player.iCivID && !events.get(exactDate_Events.get(z).eventID).run_in_background) {
-                                    rfEvent.format(EventsManager.events.get(exactDate_Events.get(z).eventID),j);
+                                    rfEvent.format(EventsManager.events.get(exactDate_Events.get(z).eventID), j);
                                     Game.player.addActiveEvent(0, exactDate_Events.get(z).eventID, 0);
                                     Game.addSimpleTask(new Game.SimpleTask(events.get(exactDate_Events.get(z).eventID).id + "0", exactDate_Events.get(z).eventID) {
                                         public void update() {
@@ -424,8 +424,8 @@ public class EventsManager {
                                 } else if (!events.get(exactDate_Events.get(z).eventID).options.isEmpty()) {
                                     score = 0;
 
-                                    for(takeID = 0; takeID < events.get(exactDate_Events.get(z).eventID).options.size(); ++takeID) {
-                                        score = (int)((float)score + events.get(exactDate_Events.get(z).eventID).options.get(takeID).ai);
+                                    for (takeID = 0; takeID < events.get(exactDate_Events.get(z).eventID).options.size(); ++takeID) {
+                                        score = (int) ((float) score + events.get(exactDate_Events.get(z).eventID).options.get(takeID).ai);
                                     }
 
                                     takeID = 0;
@@ -434,8 +434,8 @@ public class EventsManager {
                                         a = 0;
 
                                         Event event = events.get(exactDate_Events.get(z).eventID);
-                                        for(currentScore = 0; a < event.options.size(); ++a) {
-                                            if(score <= event.options.get(a).ai + currentScore){
+                                        for (currentScore = 0; a < event.options.size(); ++a) {
+                                            if (score <= event.options.get(a).ai + currentScore) {
                                                 takeID = a;
                                                 break;
                                             }
@@ -455,14 +455,14 @@ public class EventsManager {
             }
 
             if (!exactDate_EventsScenario.isEmpty()) {
-                for(z = exactDate_EventsScenario.size() - 1; z >= 0; --z) {
+                for (z = exactDate_EventsScenario.size() - 1; z >= 0; --z) {
                     if (Game_Calendar.currentYear > exactDate_EventsScenario.get(z).year || Game_Calendar.currentYear >= exactDate_EventsScenario.get(z).year && Game_Calendar.currentMonth > exactDate_EventsScenario.get(z).month || Game_Calendar.currentYear >= exactDate_EventsScenario.get(z).year && Game_Calendar.currentMonth >= exactDate_EventsScenario.get(z).month && Game_Calendar.currentDay >= exactDate_EventsScenario.get(z).day) {
-                        for(j = 1; j < Game.getCivsSize(); ++j) {
+                        for (j = 1; j < Game.getCivsSize(); ++j) {
                             if (Game.getCiv(j).getNumOfProvinces() > 0 && (!eventsScenario.get(exactDate_EventsScenario.get(z).eventID).only_once || !Game.getCiv(j).eventsDataVariables.hasVariable(eventsScenario.get(exactDate_EventsScenario.get(z).eventID).id)) && eventsScenario.get(exactDate_EventsScenario.get(z).eventID).runTriggers(j)) {
                                 updateRandomProvinceID(j);
                                 eventsScenario.get(exactDate_EventsScenario.get(z).eventID).runPreprocessor(j);
                                 if (j == Game.player.iCivID && !eventsScenario.get(exactDate_EventsScenario.get(z).eventID).run_in_background) {
-                                    rfEvent.format(EventsManager.eventsScenario.get(exactDate_EventsScenario.get(z).eventID),j);
+                                    rfEvent.format(EventsManager.eventsScenario.get(exactDate_EventsScenario.get(z).eventID), j);
                                     Game.player.addActiveEvent(3, exactDate_EventsScenario.get(z).eventID, 0);
                                     Game.addSimpleTask(new Game.SimpleTask(eventsScenario.get(exactDate_EventsScenario.get(z).eventID).id + "3", exactDate_EventsScenario.get(z).eventID) {
                                         public void update() {
@@ -478,8 +478,8 @@ public class EventsManager {
                                 } else if (!eventsScenario.get(exactDate_EventsScenario.get(z).eventID).options.isEmpty()) {
                                     score = 0;
 
-                                    for(takeID = 0; takeID < eventsScenario.get(exactDate_EventsScenario.get(z).eventID).options.size(); ++takeID) {
-                                        score = (int)((float)score + eventsScenario.get(exactDate_EventsScenario.get(z).eventID).options.get(takeID).ai);
+                                    for (takeID = 0; takeID < eventsScenario.get(exactDate_EventsScenario.get(z).eventID).options.size(); ++takeID) {
+                                        score = (int) ((float) score + eventsScenario.get(exactDate_EventsScenario.get(z).eventID).options.get(takeID).ai);
                                     }
 
                                     takeID = 0;
@@ -487,8 +487,8 @@ public class EventsManager {
                                         score = Game.oR.nextInt(score);
                                         a = 0;
                                         Event event = eventsScenario.get(exactDate_EventsScenario.get(z).eventID);
-                                        for(currentScore = 0; a < event.options.size(); ++a) {
-                                            if(score <= event.options.get(a).ai + currentScore){
+                                        for (currentScore = 0; a < event.options.size(); ++a) {
+                                            if (score <= event.options.get(a).ai + currentScore) {
                                                 takeID = a;
                                                 break;
                                             }
@@ -520,7 +520,7 @@ public class EventsManager {
             int a;
             int currentScore;
             int i;
-            for(i = 0; i < iEventsSiegeSize; ++i) {
+            for (i = 0; i < iEventsSiegeSize; ++i) {
                 if ((!eventsSiege.get(i).only_once || !Game.getCiv(iCivID).eventsDataVariables.hasVariable(eventsSiege.get(i).id)) && eventsSiege.get(i).runTriggers(iCivID)) {
                     updateRandomProvinceID(iCivID);
                     if (iCivID == Game.player.iCivID) {
@@ -544,8 +544,8 @@ public class EventsManager {
 
                     score = 0;
 
-                    for(takeID = 0; takeID < eventsSiege.get(i).options.size(); ++takeID) {
-                        score = (int)((float)score + eventsSiege.get(i).options.get(takeID).ai);
+                    for (takeID = 0; takeID < eventsSiege.get(i).options.size(); ++takeID) {
+                        score = (int) ((float) score + eventsSiege.get(i).options.get(takeID).ai);
                     }
 
                     takeID = 0;
@@ -553,8 +553,8 @@ public class EventsManager {
                         score = Game.oR.nextInt(score);
                         a = 0;
                         Event event = eventsSiege.get(i);
-                        for(currentScore = 0; a < event.options.size(); ++a) {
-                            if(score <= event.options.get(a).ai + currentScore){
+                        for (currentScore = 0; a < event.options.size(); ++a) {
+                            if (score <= event.options.get(a).ai + currentScore) {
                                 takeID = a;
                                 break;
                             }
@@ -568,7 +568,7 @@ public class EventsManager {
                 }
             }
 
-            for(i = 0; i < iEventsSiegeScenarioSize; ++i) {
+            for (i = 0; i < iEventsSiegeScenarioSize; ++i) {
                 if ((!eventsSiegeScenario.get(i).only_once || !Game.getCiv(iCivID).eventsDataVariables.hasVariable(eventsSiegeScenario.get(i).id)) && eventsSiegeScenario.get(i).runTriggers(iCivID)) {
                     updateRandomProvinceID(iCivID);
                     if (iCivID == Game.player.iCivID) {
@@ -586,8 +586,8 @@ public class EventsManager {
                     } else if (!eventsSiegeScenario.get(i).options.isEmpty()) {
                         score = 0;
 
-                        for(takeID = 0; takeID < eventsSiegeScenario.get(i).options.size(); ++takeID) {
-                            score = (int)((float)score + eventsSiegeScenario.get(i).options.get(takeID).ai);
+                        for (takeID = 0; takeID < eventsSiegeScenario.get(i).options.size(); ++takeID) {
+                            score = (int) ((float) score + eventsSiegeScenario.get(i).options.get(takeID).ai);
                         }
 
                         takeID = 0;
@@ -595,8 +595,8 @@ public class EventsManager {
                             score = Game.oR.nextInt(score);
                             a = 0;
 
-                            for(currentScore = 0; a < eventsSiegeScenario.get(i).options.size(); ++a) {
-                                if ((float)score <= (float)currentScore + eventsSiegeScenario.get(i).options.get(a).ai) {
+                            for (currentScore = 0; a < eventsSiegeScenario.get(i).options.size(); ++a) {
+                                if ((float) score <= (float) currentScore + eventsSiegeScenario.get(i).options.get(a).ai) {
                                     takeID = a;
                                     break;
                                 }
@@ -741,7 +741,7 @@ public class EventsManager {
             Game.getCiv(iCivID).eventProvinceID = Game.getCiv(iCivID).getCapitalProvinceID();
         } else {
             if (iCivID == 0) {
-                for(int i = 0; i < 500; ++i) {
+                for (int i = 0; i < 500; ++i) {
                     Game.getCiv(iCivID).eventProvinceID = Game.oR.nextInt(Game.getProvincesSize());
                     if (!Game.getProvince(Game.getCiv(iCivID).eventProvinceID).getSeaProvince() && Game.getProvince(Game.getCiv(iCivID).eventProvinceID).getWasteland() < 0) {
                         return;
@@ -830,7 +830,7 @@ public class EventsManager {
                     tempSplit = tempFileT.readString().split(";");
                     i = 0;
 
-                    for(iSize = tempSplit.length; i < iSize; ++i) {
+                    for (iSize = tempSplit.length; i < iSize; ++i) {
                         try {
                             if (!tempSplit[i].isEmpty()) {
                                 tempFileEvent = FileManager.loadFile("game/events/" + sEventsPath + tempSplit[i]);
@@ -851,7 +851,7 @@ public class EventsManager {
             FileHandle[] var19 = files;
             i = files.length;
 
-            for(iSize = 0; iSize < i; ++iSize) {
+            for (iSize = 0; iSize < i; ++iSize) {
                 tempFileEvent = var19[iSize];
 
                 try {
@@ -865,7 +865,7 @@ public class EventsManager {
             FileHandle[] var21;
             int var23;
             FileHandle file;
-            for(i = 0; i < SteamManager.modsFoldersSize; ++i) {
+            for (i = 0; i < SteamManager.modsFoldersSize; ++i) {
                 if (FileManager.IS_MAC) {
                     files = Gdx.files.external(SteamManager.modsFolders.get(i) + "game/" + "events/" + sEventsPath).list();
                 } else {
@@ -875,7 +875,7 @@ public class EventsManager {
                 var21 = files;
                 iSize = files.length;
 
-                for(var23 = 0; var23 < iSize; ++var23) {
+                for (var23 = 0; var23 < iSize; ++var23) {
                     file = var21[var23];
 
                     try {
@@ -887,12 +887,12 @@ public class EventsManager {
                 }
             }
 
-            for(i = 0; i < SteamManager.itemsInstalledSize; ++i) {
+            for (i = 0; i < SteamManager.itemsInstalledSize; ++i) {
                 files = Gdx.files.absolute(SteamManager.itemsInstalled.get(i).getFolder() + "/" + "game/" + "events/" + sEventsPath).list();
                 var21 = files;
                 iSize = files.length;
 
-                for(var23 = 0; var23 < iSize; ++var23) {
+                for (var23 = 0; var23 < iSize; ++var23) {
                     file = var21[var23];
 
                     try {
@@ -909,7 +909,7 @@ public class EventsManager {
                 tempSplit = tempFileT.readString().split(";");
                 i = 0;
 
-                for(iSize = tempSplit.length; i < iSize; ++i) {
+                for (iSize = tempSplit.length; i < iSize; ++i) {
                     try {
                         if (!tempSplit[i].isEmpty()) {
                             tempFileEvent = FileManager.loadFile("game/events/" + sEventsPath + tempSplit[i]);
@@ -926,7 +926,7 @@ public class EventsManager {
             }
         }
 
-        if (eventsType == 0) { 
+        if (eventsType == 0) {
             iEventsSize = events.size();
         } else if (eventsType == 1) {
             iEventsSiegeSize = eventsSiege.size();
@@ -964,7 +964,7 @@ public class EventsManager {
                             tempSplit = tempFileT.readString().split(";");
                             i = 0;
 
-                            for(iSize = tempSplit.length; i < iSize; ++i) {
+                            for (iSize = tempSplit.length; i < iSize; ++i) {
                                 try {
                                     if (!tempSplit[i].isEmpty()) {
                                         tempFileEvent = FileManager.loadFile("map/" + Game.map.getFile_ActiveMap_Path() + "scenarios/" + loadScenarioEventsTag + "/" + "events/" + sEventsPath + tempSplit[i]);
@@ -989,7 +989,7 @@ public class EventsManager {
             FileHandle[] var22 = files;
             i = files.length;
 
-            for(iSize = 0; iSize < i; ++iSize) {
+            for (iSize = 0; iSize < i; ++iSize) {
                 tempFileEvent = var22[iSize];
 
                 try {
@@ -1003,7 +1003,7 @@ public class EventsManager {
             FileHandle[] var24;
             int var26;
             FileHandle file;
-            for(i = 0; i < SteamManager.modsFoldersSize; ++i) {
+            for (i = 0; i < SteamManager.modsFoldersSize; ++i) {
                 if (FileManager.IS_MAC) {
                     files = Gdx.files.external(SteamManager.modsFolders.get(i) + "map/" + Game.map.getFile_ActiveMap_Path() + "scenarios/" + loadScenarioEventsTag + "/" + "events/" + sEventsPath).list();
                 } else {
@@ -1013,7 +1013,7 @@ public class EventsManager {
                 var24 = files;
                 iSize = files.length;
 
-                for(var26 = 0; var26 < iSize; ++var26) {
+                for (var26 = 0; var26 < iSize; ++var26) {
                     file = var24[var26];
 
                     try {
@@ -1025,12 +1025,12 @@ public class EventsManager {
                 }
             }
 
-            for(i = 0; i < SteamManager.itemsInstalledSize; ++i) {
+            for (i = 0; i < SteamManager.itemsInstalledSize; ++i) {
                 files = Gdx.files.absolute(SteamManager.itemsInstalled.get(i).getFolder() + "/" + "map/" + Game.map.getFile_ActiveMap_Path() + "scenarios/" + loadScenarioEventsTag + "/" + "events/" + sEventsPath).list();
                 var24 = files;
                 iSize = files.length;
 
-                for(var26 = 0; var26 < iSize; ++var26) {
+                for (var26 = 0; var26 < iSize; ++var26) {
                     file = var24[var26];
 
                     try {
@@ -1049,7 +1049,7 @@ public class EventsManager {
                         tempSplit = tempFileT.readString().split(";");
                         i = 0;
 
-                        for(iSize = tempSplit.length; i < iSize; ++i) {
+                        for (iSize = tempSplit.length; i < iSize; ++i) {
                             try {
                                 if (!tempSplit[i].isEmpty()) {
                                     tempFileEvent = FileManager.loadFile("map/" + Game.map.getFile_ActiveMap_Path() + "scenarios/" + loadScenarioEventsTag + "/" + "events/" + sEventsPath + tempSplit[i]);
@@ -1106,7 +1106,7 @@ public class EventsManager {
                 int triggerType = 0;
                 int i = 0;
 
-                while(true) {
+                while (true) {
                     if (i >= iSize) {
                         if (!nEvent.addEvent()) {
                             break;
@@ -1137,7 +1137,7 @@ public class EventsManager {
 
                         return nEvent;
                     }
-                    if(sSplit[i].trim().startsWith("#")){
+                    if (sSplit[i].trim().startsWith("#")) {
                         //跳过注释
                         continue;
                     }
@@ -1225,10 +1225,10 @@ public class EventsManager {
                             if (inTrigger) {
                                 switch (sLine[0]) {
                                     case "is_law":
-                                        if(sLine.length == 3) {
+                                        if (sLine.length == 3) {
                                             trigger.addTrigger(new EventTrigger_IsLaw(Integer.parseInt(sLine[1]), Integer.parseInt(sLine[2])), triggerType);
-                                        }else {
-                                            trigger.addTrigger(new EventTrigger_IsLaw(sLine[1], Integer.parseInt(sLine[2]),Integer.parseInt(sLine[3])), triggerType);
+                                        } else {
+                                            trigger.addTrigger(new EventTrigger_IsLaw(sLine[1], Integer.parseInt(sLine[2]), Integer.parseInt(sLine[3])), triggerType);
                                         }
                                         break;
                                     case "is_player2":
@@ -1932,16 +1932,16 @@ public class EventsManager {
                                         trigger.addTrigger(new EventTrigger_CivTag_GovernmentIsNot(sLine[1], Integer.parseInt(sLine[2])), nextType);
                                         break;
                                     case "if_counter":
-                                        trigger.addTrigger(new EventTrigger_If_Counter(sSplit[i].replaceFirst("if_counter=","")),nextType);
+                                        trigger.addTrigger(new EventTrigger_If_Counter(sSplit[i].replaceFirst("if_counter=", "")), nextType);
                                         break;
                                     case "et_counter":
-                                        trigger.addTrigger(new EventTrigger_EqualTo_Counter(sLine[1],Integer.parseInt(sLine[2])),nextType);
+                                        trigger.addTrigger(new EventTrigger_EqualTo_Counter(sLine[1], Integer.parseInt(sLine[2])), nextType);
                                         break;
                                     case "lt_counter":
-                                        trigger.addTrigger(new EventTrigger_LessThan_Counter(sLine[1],Integer.parseInt(sLine[2])),nextType);
+                                        trigger.addTrigger(new EventTrigger_LessThan_Counter(sLine[1], Integer.parseInt(sLine[2])), nextType);
                                         break;
                                     case "mt_counter":
-                                        trigger.addTrigger(new EventTrigger_MoreThan_Counter(sLine[1],Integer.parseInt(sLine[2])),nextType);
+                                        trigger.addTrigger(new EventTrigger_MoreThan_Counter(sLine[1], Integer.parseInt(sLine[2])), nextType);
                                         break;
                                     default:
                                         CFG.LOG(" MISSING IN TRIGGER -> " + sLine[0] + " *** Line: " + (i + 1));
@@ -1956,21 +1956,21 @@ public class EventsManager {
                                         option.name = sLine[1];
                                         break;
                                     case "add_counter":
-                                        option.outcome.add(new EventOutcome_Add_Counter(sLine[1],sLine[2],Integer.parseInt(sLine[3])));
+                                        option.outcome.add(new EventOutcome_Add_Counter(sLine[1], sLine[2], Integer.parseInt(sLine[3])));
                                         break;
                                     case "sub_counter":
-                                        option.outcome.add(new EventOutcome_Sub_Counter(sLine[1],sLine[2],Integer.parseInt(sLine[3])));
+                                        option.outcome.add(new EventOutcome_Sub_Counter(sLine[1], sLine[2], Integer.parseInt(sLine[3])));
                                         break;
                                     case "mul_counter":
-                                        option.outcome.add(new EventOutcome_Mul_Counter(sLine[1],sLine[2],Integer.parseInt(sLine[3])));
+                                        option.outcome.add(new EventOutcome_Mul_Counter(sLine[1], sLine[2], Integer.parseInt(sLine[3])));
                                         break;
                                     case "div_counter":
-                                        option.outcome.add(new EventOutcome_Div_Counter(sLine[1],sLine[2],Integer.parseInt(sLine[3])));
+                                        option.outcome.add(new EventOutcome_Div_Counter(sLine[1], sLine[2], Integer.parseInt(sLine[3])));
                                         break;
                                     case "set_counter":
-                                        if(sLine.length > 3) {
+                                        if (sLine.length > 3) {
                                             option.outcome.add(new EventOutcome_Set_Counter(sLine[1], sLine[2], sLine[3]));
-                                        }else {
+                                        } else {
                                             option.outcome.add(new EventOutcome_Set_Counter(sLine[1], sLine[2]));
                                         }
                                         break;
@@ -2018,7 +2018,7 @@ public class EventsManager {
                                         nProvinces = new ArrayList();
 
                                         try {
-                                            for(j = 1; j < sLine.length - 1; j += 2) {
+                                            for (j = 1; j < sLine.length - 1; j += 2) {
                                                 unitID.add(Integer.parseInt(sLine[j]));
                                                 nProvinces.add(Integer.parseInt(sLine[j + 1]));
                                             }
@@ -2156,7 +2156,7 @@ public class EventsManager {
                                                 tSplit = sLine[1].split(";");
                                                 nProvinces = new ArrayList();
 
-                                                for(j = 0; j < tSplit.length; ++j) {
+                                                for (j = 0; j < tSplit.length; ++j) {
                                                     try {
                                                         nProvinces.add(Integer.parseInt(tSplit[j]));
                                                     } catch (Exception var36) {
@@ -2180,7 +2180,7 @@ public class EventsManager {
                                                 tSplit = sLine[2].split(";");
                                                 nProvinces = new ArrayList();
 
-                                                for(j = 0; j < tSplit.length; ++j) {
+                                                for (j = 0; j < tSplit.length; ++j) {
                                                     try {
                                                         nProvinces.add(Integer.parseInt(tSplit[j]));
                                                     } catch (Exception var35) {
@@ -2204,7 +2204,7 @@ public class EventsManager {
                                                 tSplit = sLine[3].split(";");
                                                 nProvinces = new ArrayList();
 
-                                                for(j = 0; j < tSplit.length; ++j) {
+                                                for (j = 0; j < tSplit.length; ++j) {
                                                     try {
                                                         nProvinces.add(Integer.parseInt(tSplit[j]));
                                                     } catch (Exception var34) {
@@ -2284,8 +2284,8 @@ public class EventsManager {
                                         break;
                                     case "unlock_tech":
                                         try {
-                                            if(sLine.length > 2){
-                                                option.outcome.add(new EventOutcome_Unlock_Tech(Integer.parseInt(sLine[1]),Integer.parseInt(sLine[2])));
+                                            if (sLine.length > 2) {
+                                                option.outcome.add(new EventOutcome_Unlock_Tech(Integer.parseInt(sLine[1]), Integer.parseInt(sLine[2])));
                                             }
                                             option.outcome.add(new EventOutcome_Unlock_Tech(Integer.parseInt(sLine[1])));
                                         } catch (Exception var30) {
@@ -2375,7 +2375,7 @@ public class EventsManager {
                                         option.outcome.add(new EventOutcome_Province_ID_CoreAdd(sLine[1], sLine[2]));
                                         break;
                                     case "province_nuke":
-                                        option.outcome.add(new EventOutcome_Province_ID_Nuke(sLine[1],sLine[2]));
+                                        option.outcome.add(new EventOutcome_Province_ID_Nuke(sLine[1], sLine[2]));
                                         break;
                                     case "province_remove_core_civ":
                                         option.outcome.add(new EventOutcome_Province_ID_CoreRemove(sLine[1], sLine[2]));
@@ -2692,7 +2692,7 @@ public class EventsManager {
                                         nEvent.run_in_background = Boolean.parseBoolean(sLine[1]);
                                         break;
                                     case "important":
-                                        if(Boolean.parseBoolean(sLine[1])){
+                                        if (Boolean.parseBoolean(sLine[1])) {
                                             nEvent.popUp = true;
                                         }
                                         nEvent.important = Boolean.parseBoolean(sLine[1]);
@@ -2765,7 +2765,7 @@ public class EventsManager {
             FileHandle tempFileT = FileManager.loadFile("game/events/imagesMissions/numOfImages.txt");
             int numOfImages = Integer.parseInt(tempFileT.readString());
 
-            for(int i = 0; i < numOfImages; ++i) {
+            for (int i = 0; i < numOfImages; ++i) {
                 if (FileManager.loadFile("game/events/imagesMissions/" + CFG.getRescouresPath_Short() + i + ".png").exists()) {
                     missionImages.add(new Image(ImageManager.loadTexture("game/events/imagesMissions/" + CFG.getRescouresPath_Short() + i + ".png"), TextureFilter.Linear, TextureWrap.ClampToEdge));
                 } else {

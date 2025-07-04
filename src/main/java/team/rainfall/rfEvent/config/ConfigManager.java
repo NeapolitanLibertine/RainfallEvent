@@ -3,6 +3,7 @@ package team.rainfall.rfEvent.config;
 import aoc.kingdoms.lukasz.jakowski.FileManager;
 import com.badlogic.gdx.utils.Json;
 import team.rainfall.finality.FinalityLogger;
+import team.rainfall.rfEvent.rfEventImages;
 
 public class ConfigManager {
     public static final ConfigManager INSTANCE = new ConfigManager();
@@ -13,6 +14,9 @@ public class ConfigManager {
             json.setIgnoreUnknownFields(true);
             json.addClassTag("layoutConfigs", EventLayoutConfig.class);
             configData = json.fromJson(ConfigData.class, FileManager.loadFile("rainfall/rfEvent.json"));
+            for (EventLayoutConfig layoutConfig : configData.layoutConfigs) {
+                rfEventImages.addButtonImage(layoutConfig);
+            }
         }
         return configData;
     }
