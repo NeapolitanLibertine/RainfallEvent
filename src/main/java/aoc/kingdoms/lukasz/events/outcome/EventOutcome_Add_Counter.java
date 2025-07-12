@@ -1,5 +1,4 @@
 package aoc.kingdoms.lukasz.events.outcome;
-
 import aoc.kingdoms.lukasz.jakowski.CFG;
 import aoc.kingdoms.lukasz.jakowski.Game;
 import aoc.kingdoms.lukasz.map.civilization.Civilization;

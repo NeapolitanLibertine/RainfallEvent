@@ -2222,6 +2222,30 @@ public class EventsManager {
                                             CFG.exceptionStack(ex);
                                         }
                                         break;
+                                    case "annex_by_civ_from_civ2":
+                                        try {
+                                            if (sLine.length > 3 && sLine[3] != null && !sLine[3].isEmpty()) {
+                                                tSplit = sLine[3].split(";");
+                                                nProvinces = new ArrayList();
+
+                                                for (j = 0; j < tSplit.length; ++j) {
+                                                    try {
+                                                        nProvinces.add(Integer.parseInt(tSplit[j]));
+                                                    } catch (Exception var34) {
+                                                        ex = var34;
+                                                        CFG.exceptionStack(ex);
+                                                    }
+                                                }
+
+                                                if (!nProvinces.isEmpty()) {
+                                                    option.outcome.add(new EventOutcome_AnnexedProvincesByCivFromCiv2(sLine[1], sLine[2], nProvinces));
+                                                }
+                                            }
+                                        } catch (Exception var38) {
+                                            ex = var38;
+                                            CFG.exceptionStack(ex);
+                                        }
+                                        break;
                                     case "make_puppet":
                                         try {
                                             option.outcome.add(new EventOutcome_Vassalize(sLine[1], sLine[2]));
@@ -2240,10 +2264,30 @@ public class EventsManager {
                                             CFG.exceptionStack(ex);
                                         }
                                         break;
+                                    case "annex_civ2":
+                                        try {
+                                            if (sLine.length > 1 && sLine[1] != null && !sLine[1].isEmpty()) {
+                                                option.outcome.add(new EventOutcome_AnnexCivilization2(sLine[1]));
+                                            }
+                                        } catch (Exception var32) {
+                                            ex = var32;
+                                            CFG.exceptionStack(ex);
+                                        }
+                                        break;
                                     case "annexed_by_civ":
                                         try {
                                             if (sLine.length > 1 && sLine[1] != null && !sLine[1].isEmpty()) {
                                                 option.outcome.add(new EventOutcome_AnnexedByCivilization(sLine[1]));
+                                            }
+                                        } catch (Exception var31) {
+                                            ex = var31;
+                                            CFG.exceptionStack(ex);
+                                        }
+                                        break;
+                                    case "annexed_by_civ2":
+                                        try {
+                                            if (sLine.length > 1 && sLine[1] != null && !sLine[1].isEmpty()) {
+                                                option.outcome.add(new EventOutcome_AnnexedByCivilization2(sLine[1]));
                                             }
                                         } catch (Exception var31) {
                                             ex = var31;
