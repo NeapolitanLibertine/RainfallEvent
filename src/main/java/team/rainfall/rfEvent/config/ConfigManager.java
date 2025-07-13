@@ -6,6 +6,7 @@ import team.rainfall.finality.FinalityLogger;
 import team.rainfall.rfEvent.rfEventImages;
 
 public class ConfigManager {
+    public static int superLayoutID = -1;
     public static final ConfigManager INSTANCE = new ConfigManager();
     private ConfigData configData = null;
     public ConfigData getConfigData(){
@@ -15,6 +16,9 @@ public class ConfigManager {
             json.addClassTag("layoutConfigs", EventLayoutConfig.class);
             configData = json.fromJson(ConfigData.class, FileManager.loadFile("rainfall/rfEvent.json"));
             for (EventLayoutConfig layoutConfig : configData.layoutConfigs) {
+                if(layoutConfig.tag.equals("super")){
+                    superLayoutID = layoutConfig.id;
+                }
                 rfEventImages.addButtonImage(layoutConfig);
             }
         }

@@ -49,9 +49,7 @@ public class InGame_Event extends Menu {
     public boolean madeDecision = false;
     private EventLayoutConfig layout = null;
     public InGame_Event(Event nEvent, int nEventType, int nEventID) {
-        if (nEvent.layoutID == -1) {
-            nEvent.layoutID = 0;
-        }
+
         layout = ConfigManager.INSTANCE.getLayoutByID(nEvent.layoutID);
         List<MenuElement> menuElements = new ArrayList<>();
         this.event = nEvent;
@@ -59,10 +57,16 @@ public class InGame_Event extends Menu {
         eventID = nEventID;
         if (event.super_event && event.musicName != null) {
             try {
+                if(nEvent.layoutID == -1){
+                    nEvent.layoutID = ConfigManager.superLayoutID;
+                }
                 Game.soundsManager.loadNextMusic(event.musicName);
             } catch (Exception e) {
                 CFG.exceptionStack(e);
             }
+        }
+        if (nEvent.layoutID == -1) {
+            nEvent.layoutID = 0;
         }
         int paddingLeft = CFG.PADDING * 2 + Images.boxTitleBORDERWIDTH;
         int titleHeight = ImageManager.getImage(Images.title600).getHeight();
