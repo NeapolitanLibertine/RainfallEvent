@@ -9,6 +9,7 @@ import aoc.kingdoms.lukasz.events.Event;
 import aoc.kingdoms.lukasz.events.EventsManager;
 import aoc.kingdoms.lukasz.jakowski.CFG;
 import aoc.kingdoms.lukasz.jakowski.Game;
+import aoc.kingdoms.lukasz.jakowski.GlyphLayout_Game;
 import aoc.kingdoms.lukasz.jakowski.Missions.MissionTree;
 import aoc.kingdoms.lukasz.jakowski.Renderer.Renderer;
 import aoc.kingdoms.lukasz.jakowski.Steam.SteamAchievementsManager;
@@ -31,6 +32,9 @@ import aoc.kingdoms.lukasz.textures.ImageManager;
 import aoc.kingdoms.lukasz.textures.Images;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import team.rainfall.rfEvent.FontLoader;
+import team.rainfall.rfEvent.RainfallDesc;
+import team.rainfall.rfEvent.RainfallTitle;
 import team.rainfall.rfEvent.config.ConfigManager;
 import team.rainfall.rfEvent.config.EventLayoutConfig;
 import team.rainfall.rfEvent.rfEventImages;
@@ -49,12 +53,11 @@ public class InGame_Event extends Menu {
     public boolean madeDecision = false;
     private EventLayoutConfig layout = null;
     public InGame_Event(Event nEvent, int nEventType, int nEventID) {
-
-        layout = ConfigManager.INSTANCE.getLayoutByID(nEvent.layoutID);
         List<MenuElement> menuElements = new ArrayList<>();
         this.event = nEvent;
         eventType = nEventType;
         eventID = nEventID;
+
         if (event.super_event && event.musicName != null) {
             try {
                 if(nEvent.layoutID == -1){
@@ -65,9 +68,12 @@ public class InGame_Event extends Menu {
                 CFG.exceptionStack(e);
             }
         }
+
         if (nEvent.layoutID == -1) {
             nEvent.layoutID = 0;
         }
+
+        layout = ConfigManager.INSTANCE.getLayoutByID(nEvent.layoutID);
         int paddingLeft = CFG.PADDING * 2 + Images.boxTitleBORDERWIDTH;
         int titleHeight = ImageManager.getImage(Images.title600).getHeight();
         int menuWidth = ImageManager.getImage(Images.title600).getWidth();
@@ -88,7 +94,8 @@ public class InGame_Event extends Menu {
         }
 
         if (eventType != 2 && eventType != 5 && !event.no_text) {
-            menuElements.add(new Text_Desc(Game.lang.get(this.event.desc), (int) (paddingLeft + menuWidth * layout.textX), (int) (buttonY * layout.textY), (int) ((menuWidth - paddingLeft * 2) * layout.textWidth)));
+            RainfallDesc desc = new RainfallDesc(Game.lang.get(this.event.desc), (int) (paddingLeft + menuWidth * layout.textX), (int) (buttonY * layout.textY), (int) ((menuWidth - paddingLeft * 2) * layout.textWidth),layout.textBackground);
+            menuElements.add(desc);
         } else {
             String sResource = "";
             String sPriceChange = "";
@@ -99,8 +106,10 @@ public class InGame_Event extends Menu {
             } catch (Exception var15) {
                 CFG.exceptionStack(var15);
             }
+
             if (!event.no_text) {
-                menuElements.add(new Text_Desc(Game.lang.get(this.event.desc, sResource, sPriceChange), (int) (paddingLeft + menuWidth * layout.textX), (int) (buttonY * layout.textY), (int) ((menuWidth - paddingLeft * 2) * layout.textWidth)));
+                RainfallDesc desc = new RainfallDesc(Game.lang.get(this.event.desc, sResource, sPriceChange), (int) (paddingLeft + menuWidth * layout.textX), (int) (buttonY * layout.textY), (int) ((menuWidth - paddingLeft * 2) * layout.textWidth),layout.textBackground);
+                menuElements.add(desc);
             }
         }
         if (!event.no_text && layout.textY >= 1f) {
@@ -236,11 +245,9 @@ public class InGame_Event extends Menu {
     }
 
     public void draw(SpriteBatch oSB, int iTranslateX, int iTranslateY, boolean menuIsActive, Status titleStatus) {
-
         if(event.important){
             Game.gameThread.play = false;
         }
-
         if (lTime + 60L >= CFG.currentTimeMillis) {
             iTranslateY = iTranslateY - CFG.BUTTON_HEIGHT + (int)((float)CFG.BUTTON_HEIGHT * ((float)(CFG.currentTimeMillis - lTime) / 60.0F));
         }
@@ -261,6 +268,10 @@ public class InGame_Event extends Menu {
             }
             oSB.setColor(Color.WHITE);
         } catch (Exception ignored) {
+        }
+        if(layout.customTitle){
+            Renderer.glyphLayout.setText(Renderer.fontMain.get(FontLoader.fontID),Game.lang.get(this.event.title));
+            Renderer.drawText(oSB,FontLoader.fontID,Game.lang.get(this.event.title),layout.titleScale, (int) (this.getPosX() - (Renderer.glyphLayout.getWidth() / 2) + iTranslateX + imgWidth * layout.titleX), (int) (this.getPosY() + (this.imgHeight * layout.titleY) + iTranslateY),Color.BLACK);
         }
         super.draw(oSB, iTranslateX, iTranslateY, menuIsActive, titleStatus);
     }

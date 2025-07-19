@@ -9,7 +9,14 @@ public class EventLayoutConfig {
     public float textY = 1f;
     public float textX = 0f;
     public float textWidth = 1f;
+    public float titleY = 0f;
+    public float titleX = 0f;
+    public float titleWidth = 0f;
+    public float titleScale = 1f;
     public boolean showTitle = true;
+    public boolean textBackground = true;
+    public boolean customTitle = false;
+    
     public String buttonTexture = null;
     public String buttonActiveTexture = null;
 }
