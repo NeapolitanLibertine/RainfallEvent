@@ -32,6 +32,9 @@ public class EventOutcome_Set_Counter extends EventOutcome {
             if(civTAG.equals(rfEvent.CODENAME)){
                 civTAG = Game.getCiv(iCivID).getCivTag();
             }
+            if(counterName.startsWith("$")) {
+                counterName = counterName.replace("$","");
+            }
             Counter counter = new Counter();
             String name = counterName;
             String civTag = Game.getCiv(iCivID).getCivTag();
@@ -46,7 +49,6 @@ public class EventOutcome_Set_Counter extends EventOutcome {
             if (Counter.existsInCiv(civilization, counterName)) {
                 civilization.eventsDataVariables.v.removeIf(s -> s.startsWith("$$" + rfEvent.CODENAME + "_" + counterName));
             }
-            FinalityLogger.debug("SAT4 "+counter.value+" ; "+counter.getRaw());
             civilization.eventsDataVariables.addVariable(counter.getRaw());
 
         } catch (Exception var5) {

@@ -24,7 +24,6 @@ public class CounterBuilder {
         }else {
             civilization = Game.getCiv(Game.getCivID(civTag));
         }
-        FinalityLogger.debug("CIV "+civilization.getCivName());
         for (String s : civilization.eventsDataVariables.v) {
             FinalityLogger.debug("CIV_VAR "+s+" ; "+name);
             if(s.startsWith("$$" + rfEvent.CODENAME + "_"+name)){

@@ -3,6 +3,7 @@ package aoc.kingdoms.lukasz.events.triggers;
 import aoc.kingdoms.lukasz.jakowski.CFG;
 import aoc.kingdoms.lukasz.jakowski.Game;
 import aoc.kingdoms.lukasz.textures.Images;
+import team.rainfall.finality.FinalityLogger;
 import team.rainfall.rfEvent.ExpressionProcessor;
 
 public class EventTrigger_If_Counter extends EventTrigger_Value{
@@ -16,18 +17,14 @@ public class EventTrigger_If_Counter extends EventTrigger_Value{
     }
 
     public String getText() {
-        return Game.lang.get("Random") + " < ";
+        return Game.lang.get("Counter")+":";
     }
 
     public String getText2() {
-        return "" + CFG.getPrecision2(0, 10) + "%";
+        return expStr;
     }
 
     public String getText3() {
         return "";
-    }
-
-    public int getImage() {
-        return Images.dice;
     }
 }
