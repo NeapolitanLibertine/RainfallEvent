@@ -11,16 +11,17 @@ import aoc.kingdoms.lukasz.jakowski.Game;
 import aoc.kingdoms.lukasz.textures.Images;
 import team.rainfall.finality.FinalityLogger;
 
-public class EventOutcome_RunEvent extends EventOutcome {
+public class EventOutcome_RunEventInstantly extends EventOutcome {
     public String eventID;
 
-    public EventOutcome_RunEvent(String eventID) {
+    public EventOutcome_RunEventInstantly(String eventID) {
         this.eventID = eventID;
     }
 
     public void updateCiv(int iCivID, int bonus_duration) {
         try {
             EventsManager.runEvent.add(this.eventID);
+            EventsManager.runEvent(EventsManager.runEvent.size() - 1);
         } catch (Exception ex) {
             CFG.exceptionStack(ex);
         }

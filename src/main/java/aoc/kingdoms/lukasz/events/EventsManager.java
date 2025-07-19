@@ -87,6 +87,7 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.Texture.TextureWrap;
 import com.badlogic.gdx.utils.GdxRuntimeException;
+import team.rainfall.rfEvent.FontLoader;
 import team.rainfall.rfEvent.rfEvent;
 
 import java.util.ArrayList;
@@ -814,6 +815,7 @@ public class EventsManager {
     }
 
     public static final void loadEvents(int eventsType) {
+        FontLoader.loadFont();
         String sEventsPath = eventsType == 0 ? "common/" : (eventsType == 1 ? "siege/" : "global/");
         String sEventsPath_List = eventsType == 0 ? "list_common.txt" : (eventsType == 1 ? "list_siege.txt" : "list_global.txt");
         //GdxRuntimeException ex;
@@ -2010,6 +2012,12 @@ public class EventsManager {
                                     case "add_variable2":
                                         option.outcome.add(new EventOutcome_AddVariable_Civ(sLine[1], sLine[2]));
                                         break;
+                                    case "remove_variable":
+                                        option.outcome.add(new EventOutcome_RemoveVariable(sLine[1]));
+                                        break;
+                                    case "remove_variable2":
+                                        option.outcome.add(new EventOutcome_RemoveVariable_Civ(sLine[1], sLine[2]));
+                                        break;
                                     case "ai_aggression":
                                         option.outcome.add(new EventOutcome_AI_Aggression(Integer.parseInt(sLine[1])));
                                         break;
@@ -2078,6 +2086,9 @@ public class EventsManager {
                                         break;
                                     case "run_event":
                                         option.outcome.add(new EventOutcome_RunEvent(sLine[1]));
+                                        break;
+                                    case "run_event_instantly":
+                                        option.outcome.add(new EventOutcome_RunEventInstantly(sLine[1]));
                                         break;
                                     case "promote_advisor":
                                         option.outcome.add(new EventOutcome_PromoteAdvisor(Integer.parseInt(sLine[1])));
@@ -2777,6 +2788,7 @@ public class EventsManager {
                                     case "execute_at":
                                         nEvent.execPosition = Integer.parseInt(sLine[1]);
                                         break;
+                                    case "ui_type":
                                     case "layout":
                                         nEvent.layoutID = Integer.parseInt(sLine[1]);
                                         break;
