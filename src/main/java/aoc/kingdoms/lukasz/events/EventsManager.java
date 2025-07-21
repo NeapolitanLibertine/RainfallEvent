@@ -2155,6 +2155,14 @@ public class EventsManager {
                                             CFG.exceptionStack(ex);
                                         }
                                         break;
+                                    case "add_ruler_custom":
+                                        try {
+                                            option.outcome.add(new EventOutcome_AddRuler_Custom(sLine[1], Integer.parseInt(sLine[2])));
+                                        } catch (Exception var37) {
+                                            ex = var37;
+                                            CFG.exceptionStack(ex);
+                                        }
+                                        break;
                                     case "add_advisor":
                                         option.outcome.add(new EventOutcome_AddAdvisor(Integer.parseInt(sLine[1])));
                                         break;
