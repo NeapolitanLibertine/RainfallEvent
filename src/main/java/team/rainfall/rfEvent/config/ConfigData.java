@@ -4,4 +4,5 @@ import com.badlogic.gdx.utils.Array;
 
 public class ConfigData {
     public Array<EventLayoutConfig> layoutConfigs = new Array<>();
+    public boolean noMissionMask = false;
 }
