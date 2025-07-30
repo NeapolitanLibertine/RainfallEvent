@@ -68,6 +68,9 @@ public class InGame_Event extends Menu {
                 CFG.exceptionStack(e);
             }
         }
+        if(nEvent.layoutID == -1 && (eventType == 999 || eventType == 1000)){
+            nEvent.layoutID = ConfigManager.missionLayoutID;
+        }
 
         if (nEvent.layoutID == -1) {
             nEvent.layoutID = 0;
@@ -82,9 +85,9 @@ public class InGame_Event extends Menu {
         int buttonY = CFG.PADDING * 2;
         int buttonX = Images.boxTitleBORDERWIDTH;
         EventsManager.loadEventIMG(this.event.image);
-
+        float fScale = 0;
         try {
-            float fScale = (float) (menuWidth - Images.boxTitleBORDERWIDTH * 2) / (float) EventsManager.eventIMG.getWidth();
+            fScale = (float) (menuWidth - Images.boxTitleBORDERWIDTH * 2) / (float) EventsManager.eventIMG.getWidth();
             this.imgWidth = menuWidth - Images.boxTitleBORDERWIDTH * 2;
             this.imgHeight = (int) ((float) EventsManager.eventIMG.getHeight() * fScale);
             buttonY += this.imgHeight;
@@ -92,9 +95,14 @@ public class InGame_Event extends Menu {
             Exception ex = var16;
             CFG.exceptionStack(ex);
         }
-
+        int px_text = 0;
+        int px_button = 0;
+        if(layout.pxMode){
+            px_text = (int) (layout.textY * fScale);
+            px_button = (int) (layout.buttonY * fScale);
+        }
         if (eventType != 2 && eventType != 5 && !event.no_text) {
-            RainfallDesc desc = new RainfallDesc(Game.lang.get(this.event.desc), (int) (paddingLeft + menuWidth * layout.textX), (int) (buttonY * layout.textY), (int) ((menuWidth - paddingLeft * 2) * layout.textWidth),layout.textBackground);
+            RainfallDesc desc = new RainfallDesc(Game.lang.get(this.event.desc), (int) (paddingLeft + menuWidth * layout.textX), (int) (buttonY * layout.textY) - px_text, (int) ((menuWidth - paddingLeft * 2) * layout.textWidth),layout.textBackground);
             menuElements.add(desc);
         } else {
             String sResource = "";
@@ -108,7 +116,7 @@ public class InGame_Event extends Menu {
             }
 
             if (!event.no_text) {
-                RainfallDesc desc = new RainfallDesc(Game.lang.get(this.event.desc, sResource, sPriceChange), (int) (paddingLeft + menuWidth * layout.textX), (int) (buttonY * layout.textY), (int) ((menuWidth - paddingLeft * 2) * layout.textWidth),layout.textBackground);
+                RainfallDesc desc = new RainfallDesc(Game.lang.get(this.event.desc, sResource, sPriceChange), (int) (paddingLeft + menuWidth * layout.textX), (int) (buttonY * layout.textY) - px_text, (int) ((menuWidth - paddingLeft * 2) * layout.textWidth),layout.textBackground);
                 menuElements.add(desc);
             }
         }
@@ -116,7 +124,11 @@ public class InGame_Event extends Menu {
             buttonY += menuElements.get(0).getHeight() + CFG.PADDING * 2;
         }
         buttonY = (int) (buttonY * layout.buttonY);
+        if(layout.bottomLocate){
+            buttonY = imgHeight - px_button;
+        }
         int tMenuHeight;
+
         for (tMenuHeight = 0; tMenuHeight < this.event.options.size(); ++tMenuHeight) {
             //Skip preprocessor option
             if(event.preprocessorID == tMenuHeight){
