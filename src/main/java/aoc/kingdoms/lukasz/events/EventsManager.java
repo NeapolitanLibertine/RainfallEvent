@@ -2329,6 +2329,14 @@ public class EventsManager {
                                             CFG.exceptionStack(ex);
                                         }
                                         break;
+                                    case "white_peace2":
+                                        try {
+                                            option.outcome.add(new EventOutcome_WhitePeace2(sLine[1]));
+                                        } catch (Exception var30) {
+                                            ex = var30;
+                                            CFG.exceptionStack(ex);
+                                        }
+                                        break;
                                     case "change_law":
                                         try {
                                             option.outcome.add(new EventOutcome_Change_Law(Integer.parseInt(sLine[1]), Integer.parseInt(sLine[2])));
@@ -2351,6 +2359,30 @@ public class EventsManager {
                                                 option.outcome.add(new EventOutcome_Unlock_Tech(Integer.parseInt(sLine[1]), Integer.parseInt(sLine[2])));
                                             }
                                             option.outcome.add(new EventOutcome_Unlock_Tech(Integer.parseInt(sLine[1])));
+                                        } catch (Exception var30) {
+                                            ex = var30;
+                                            CFG.exceptionStack(ex);
+                                        }
+                                        break;
+                                    case "add_ns":
+                                        try {
+                                            if(sLine.length > 2) {
+                                                option.outcome.add(new EventOutcome_AddNationalSpirit(Integer.parseInt(sLine[1]), sLine[2]));
+                                            }else{
+                                                option.outcome.add(new EventOutcome_AddNationalSpirit(sLine[1]));
+                                            }
+                                        } catch (Exception var30) {
+                                            ex = var30;
+                                            CFG.exceptionStack(ex);
+                                        }
+                                        break;
+                                    case "remove_ns":
+                                        try {
+                                            if(sLine.length > 2) {
+                                                option.outcome.add(new EventOutcome_RemoveNationalSpirit(Integer.parseInt(sLine[1]), sLine[2]));
+                                            }else{
+                                                option.outcome.add(new EventOutcome_RemoveNationalSpirit(sLine[1]));
+                                            }
                                         } catch (Exception var30) {
                                             ex = var30;
                                             CFG.exceptionStack(ex);
