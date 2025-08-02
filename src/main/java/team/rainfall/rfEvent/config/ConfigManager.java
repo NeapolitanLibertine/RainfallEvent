@@ -27,16 +27,20 @@ public class ConfigManager {
             json.addClassTag("layoutConfigs", EventLayoutConfig.class);
             configData = json.fromJson(ConfigData.class, FileManager.loadFile("rainfall/rfEvent.json"));
             for (EventLayoutConfig layoutConfig : configData.layoutConfigs) {
+                FinalityLogger.debug("mission tag2 "+layoutConfig.id+ " " +layoutConfig.tag);
                 if(!bool){
                     FinalityLogger.warn("locked");
                     FinalityLogger.warn(FileManager.loadFile("rainfall/rfEvent_unlocker").readString(String.valueOf(StandardCharsets.UTF_8)));
                     layoutConfig.bottomLocate = false;
                     layoutConfig.pxMode = false;
                 }
+
                 if(layoutConfig.tag.equals("super")){
                     superLayoutID = layoutConfig.id;
                 }
+
                 if(layoutConfig.tag.equals("mission")){
+                    FinalityLogger.debug("mission tag "+layoutConfig.id);
                     missionLayoutID = layoutConfig.id;
                 }
                 if(layoutConfig.bottomLocate && !layoutConfig.pxMode){

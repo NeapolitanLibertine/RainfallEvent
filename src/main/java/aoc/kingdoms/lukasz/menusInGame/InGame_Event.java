@@ -32,6 +32,7 @@ import aoc.kingdoms.lukasz.textures.ImageManager;
 import aoc.kingdoms.lukasz.textures.Images;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import team.rainfall.finality.FinalityLogger;
 import team.rainfall.rfEvent.FontLoader;
 import team.rainfall.rfEvent.RainfallDesc;
 import team.rainfall.rfEvent.RainfallTitle;
@@ -68,7 +69,9 @@ public class InGame_Event extends Menu {
                 CFG.exceptionStack(e);
             }
         }
+        FinalityLogger.debug("rfEvent.test2 "+event.title);
         if(nEvent.layoutID == -1 && (eventType == 999 || eventType == 1000)){
+            FinalityLogger.debug("rfEvent.test1" + event.title);
             nEvent.layoutID = ConfigManager.missionLayoutID;
         }
 
