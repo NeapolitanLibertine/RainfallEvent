@@ -24,6 +24,7 @@ public class EventOutcome_AnnexCivilization2 extends EventOutcome {
                     int pID = Game.getCiv(annexCivID).getProvinceID(i);
                     Game.getProvince(pID).setCivID(iCivID);
                     Game.getProvince(pID).removeArmyCivID(annexCivID);
+                    Game.checkActiveArmy_Fog();
                     //Game.getProvince(pID).addCore(iCivID);
                 } catch (Exception ex) {
                     CFG.exceptionStack(ex);
