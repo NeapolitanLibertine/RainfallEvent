@@ -2021,6 +2021,12 @@ public class EventsManager {
                                     case "ai_aggression":
                                         option.outcome.add(new EventOutcome_AI_Aggression(Integer.parseInt(sLine[1])));
                                         break;
+                                    case "add_army_struct":
+                                        option.outcome.add(new EventOutcome_AddArmy_Struct(sLine[1],Integer.parseInt(sLine[2]),Integer.parseInt(sLine[3])));
+                                        break;
+                                    case "add_army_struct2":
+                                        option.outcome.add(new EventOutcome_AddArmy_Struct(sLine[1],Integer.parseInt(sLine[2])));
+                                        break;
                                     case "add_new_army":
                                         List<Integer> unitID = new ArrayList<>();
                                         nProvinces = new ArrayList();
