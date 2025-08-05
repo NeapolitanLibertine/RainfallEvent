@@ -6,7 +6,10 @@
 package aoc.kingdoms.lukasz.menusInGame;
 
 import aoc.kingdoms.lukasz.events.Event;
+import aoc.kingdoms.lukasz.events.EventOption;
 import aoc.kingdoms.lukasz.events.EventsManager;
+import aoc.kingdoms.lukasz.events.outcome.EventOutcome;
+import aoc.kingdoms.lukasz.events.outcome.EventOutcome_Tooltip;
 import aoc.kingdoms.lukasz.jakowski.CFG;
 import aoc.kingdoms.lukasz.jakowski.Game;
 import aoc.kingdoms.lukasz.jakowski.GlyphLayout_Game;
@@ -21,12 +24,7 @@ import aoc.kingdoms.lukasz.menu_element.Empty;
 import aoc.kingdoms.lukasz.menu_element.MenuElement;
 import aoc.kingdoms.lukasz.menu_element.Status;
 import aoc.kingdoms.lukasz.menu_element.button.ButtonGame_Value;
-import aoc.kingdoms.lukasz.menu_element.menuElementHover.MenuElement_Hover;
-import aoc.kingdoms.lukasz.menu_element.menuElementHover.MenuElement_HoverElement;
-import aoc.kingdoms.lukasz.menu_element.menuElementHover.MenuElement_HoverElement_Type;
-import aoc.kingdoms.lukasz.menu_element.menuElementHover.MenuElement_HoverElement_Type_Image;
-import aoc.kingdoms.lukasz.menu_element.menuElementHover.MenuElement_HoverElement_Type_Text;
-import aoc.kingdoms.lukasz.menu_element.menuElementHover.MenuElement_HoverElement_Type_TextTitle_BG;
+import aoc.kingdoms.lukasz.menu_element.menuElementHover.*;
 import aoc.kingdoms.lukasz.menu_element.textStatic.Text_Desc;
 import aoc.kingdoms.lukasz.textures.ImageManager;
 import aoc.kingdoms.lukasz.textures.Images;
@@ -53,6 +51,7 @@ public class InGame_Event extends Menu {
     public int imgHeight = 1;
     public boolean madeDecision = false;
     private EventLayoutConfig layout = null;
+
     public InGame_Event(Event nEvent, int nEventType, int nEventID) {
         List<MenuElement> menuElements = new ArrayList<>();
         this.event = nEvent;
@@ -61,7 +60,7 @@ public class InGame_Event extends Menu {
 
         if (event.super_event && event.musicName != null) {
             try {
-                if(nEvent.layoutID == -1){
+                if (nEvent.layoutID == -1) {
                     nEvent.layoutID = ConfigManager.superLayoutID;
                 }
                 Game.soundsManager.loadNextMusic(event.musicName);
@@ -69,8 +68,8 @@ public class InGame_Event extends Menu {
                 CFG.exceptionStack(e);
             }
         }
-        FinalityLogger.debug("rfEvent.test2 "+event.title);
-        if(nEvent.layoutID == -1 && (eventType == 999 || eventType == 1000)){
+        FinalityLogger.debug("rfEvent.test2 " + event.title);
+        if (nEvent.layoutID == -1 && (eventType == 999 || eventType == 1000)) {
             FinalityLogger.debug("rfEvent.test1" + event.title);
             nEvent.layoutID = ConfigManager.missionLayoutID;
         }
@@ -100,12 +99,12 @@ public class InGame_Event extends Menu {
         }
         int px_text = 0;
         int px_button = 0;
-        if(layout.pxMode){
+        if (layout.pxMode) {
             px_text = (int) (layout.textY * fScale);
             px_button = (int) (layout.buttonY * fScale);
         }
         if (eventType != 2 && eventType != 5 && !event.no_text) {
-            RainfallDesc desc = new RainfallDesc(Game.lang.get(this.event.desc), (int) (paddingLeft + menuWidth * layout.textX), (int) (buttonY * layout.textY) - px_text, (int) ((menuWidth - paddingLeft * 2) * layout.textWidth),layout.textBackground);
+            RainfallDesc desc = new RainfallDesc(Game.lang.get(this.event.desc), (int) (paddingLeft + menuWidth * layout.textX), (int) (buttonY * layout.textY) - px_text, (int) ((menuWidth - paddingLeft * 2) * layout.textWidth), layout.textBackground);
             menuElements.add(desc);
         } else {
             String sResource = "";
@@ -119,7 +118,7 @@ public class InGame_Event extends Menu {
             }
 
             if (!event.no_text) {
-                RainfallDesc desc = new RainfallDesc(Game.lang.get(this.event.desc, sResource, sPriceChange), (int) (paddingLeft + menuWidth * layout.textX), (int) (buttonY * layout.textY) - px_text, (int) ((menuWidth - paddingLeft * 2) * layout.textWidth),layout.textBackground);
+                RainfallDesc desc = new RainfallDesc(Game.lang.get(this.event.desc, sResource, sPriceChange), (int) (paddingLeft + menuWidth * layout.textX), (int) (buttonY * layout.textY) - px_text, (int) ((menuWidth - paddingLeft * 2) * layout.textWidth), layout.textBackground);
                 menuElements.add(desc);
             }
         }
@@ -127,14 +126,14 @@ public class InGame_Event extends Menu {
             buttonY += menuElements.get(0).getHeight() + CFG.PADDING * 2;
         }
         buttonY = (int) (buttonY * layout.buttonY);
-        if(layout.bottomLocate){
+        if (layout.bottomLocate) {
             buttonY = imgHeight - px_button;
         }
         int tMenuHeight;
 
         for (tMenuHeight = 0; tMenuHeight < this.event.options.size(); ++tMenuHeight) {
             //Skip preprocessor option
-            if(event.preprocessorID == tMenuHeight){
+            if (event.preprocessorID == tMenuHeight) {
                 continue;
             }
             menuElements.add(new ButtonGame_Value(Game.lang.get(this.event.options.get(tMenuHeight).name), CFG.FONT_REGULAR, -1, (int) (paddingLeft + menuWidth * layout.buttonX), buttonY, (int) ((menuWidth - paddingLeft * 2) * layout.buttonWidth), true, tMenuHeight) {
@@ -157,19 +156,29 @@ public class InGame_Event extends Menu {
                 }
 
                 public int getButtonBG() {
-                    return layout.buttonTexture != null? rfEventImages.getBtnImageID(layout.id) :Images.buttonGame;
+                    return layout.buttonTexture != null ? rfEventImages.getBtnImageID(layout.id) : Images.buttonGame;
                 }
 
                 public int getButtonBG_Active() {
-                    return layout.buttonActiveTexture != null? rfEventImages.getBtnActiveImageID(layout.id) :Images.buttonGameH;
+                    return layout.buttonActiveTexture != null ? rfEventImages.getBtnActiveImageID(layout.id) : Images.buttonGameH;
                 }
+
                 public void buildElementHover() {
                     List<MenuElement_HoverElement> nElements = new ArrayList<>();
                     List<MenuElement_HoverElement_Type> nData = new ArrayList<>();
                     nData.add(new MenuElement_HoverElement_Type_TextTitle_BG(this.getText(), CFG.FONT_BOLD, Colors.HOVER_GOLD));
                     nElements.add(new MenuElement_HoverElement(nData));
                     nData.clear();
-
+                    boolean hide = false;
+                    for (EventOutcome eventOutcome : InGame_Event.this.event.options.get(this.getCurrent()).outcome) {
+                        if (eventOutcome instanceof EventOutcome_Tooltip) {
+                            EventOutcome_Tooltip toolTipOutcome = (EventOutcome_Tooltip) eventOutcome;
+                            hide = toolTipOutcome.hideOutcomes;
+                            nData.add(new MenuElement_HoverElement_Type_Text_Desc(toolTipOutcome.content));
+                            nElements.add(new MenuElement_HoverElement(nData));
+                            nData.clear();
+                        }
+                    }
                     try {
                         for (int i = 0; i < InGame_Event.this.event.options.get(this.getCurrent()).outcome.size(); ++i) {
                             if (InGame_Event.this.event.options.get(this.getCurrent()).outcome.get(i).getStringLeft() != null) {
@@ -185,8 +194,9 @@ public class InGame_Event extends Menu {
                                 if (InGame_Event.this.event.options.get(this.getCurrent()).outcome.get(i).getStringRight2(InGame_Event.this.event.options.get(this.getCurrent()).bonus_duration) != null) {
                                     nData.add(new MenuElement_HoverElement_Type_Text(InGame_Event.this.event.options.get(this.getCurrent()).outcome.get(i).getStringRight2(InGame_Event.this.event.options.get(this.getCurrent()).bonus_duration), CFG.FONT_REGULAR_SMALL, Colors.HOVER_RIGHT2));
                                 }
-
-                                nElements.add(new MenuElement_HoverElement(nData));
+                                if (!hide) {
+                                    nElements.add(new MenuElement_HoverElement(nData));
+                                }
                                 nData.clear();
                             }
                         }
@@ -224,13 +234,13 @@ public class InGame_Event extends Menu {
         if (event.execPosition >= 0) {
             inProvinceID = event.execPosition;
         }
-        if (layout.showTitle){
+        if (layout.showTitle) {
             this.initMenu(new MenuTitleIMG_DoubleText(Game.lang.get(this.event.title), Game.lang.get("EventInX", Game.getProvince(inProvinceID).getProvinceName()), true, false, Images.title600) {
                 public long getTime() {
                     return InGame_Event.lTime;
                 }
             }, CFG.GAME_WIDTH / 2 - menuWidth / 2, CFG.GAME_HEIGHT / 5, menuWidth, tMenuHeight, menuElements, false, true);
-        }else {
+        } else {
             this.initMenu(new MenuTitleIMG_DoubleText("", "", true, false, Images.title600) {
                 @Override
                 public void drawGradient(SpriteBatch oSB, int nPosX, int nPosY, int nWidth, Status titleStatus) {
@@ -250,6 +260,7 @@ public class InGame_Event extends Menu {
                         Images.pix.draw(oSB, nPosX, nPosY - this.getHeight(), nWidth, 1);
                     }
                 }
+
                 public long getTime() {
                     return InGame_Event.lTime;
                 }
@@ -260,14 +271,14 @@ public class InGame_Event extends Menu {
     }
 
     public void draw(SpriteBatch oSB, int iTranslateX, int iTranslateY, boolean menuIsActive, Status titleStatus) {
-        if(event.important){
+        if (event.important) {
             Game.gameThread.play = false;
         }
         if (lTime + 60L >= CFG.currentTimeMillis) {
-            iTranslateY = iTranslateY - CFG.BUTTON_HEIGHT + (int)((float)CFG.BUTTON_HEIGHT * ((float)(CFG.currentTimeMillis - lTime) / 60.0F));
+            iTranslateY = iTranslateY - CFG.BUTTON_HEIGHT + (int) ((float) CFG.BUTTON_HEIGHT * ((float) (CFG.currentTimeMillis - lTime) / 60.0F));
         }
         int height2 = !layout.showTitle ? this.getTitle().getHeight() : 0;
-        if(!event.no_background) {
+        if (!event.no_background) {
             Renderer.drawBoxCorner(oSB, this.getPosX() + iTranslateX, this.getPosY() - this.getTitle().getHeight() + iTranslateY, this.getWidth(), this.getHeight() + this.getTitle().getHeight() + CFG.PADDING);
             Renderer.drawMenusBox(oSB, this.getPosX() + iTranslateX, this.getPosY() + iTranslateY, this.getWidth(), this.getHeight() + CFG.PADDING, false, Images.insideTop600, Images.insideBot600);
         }
@@ -275,7 +286,7 @@ public class InGame_Event extends Menu {
 
         try {
             EventsManager.eventIMG.draw(oSB, this.getPosX() + Images.boxTitleBORDERWIDTH + iTranslateX, this.getPosY() + iTranslateY - height2, this.imgWidth, this.imgHeight);
-            if(!event.no_background) {
+            if (!event.no_background) {
                 Renderer.drawBox(oSB, Images.eventCorner, this.getPosX() + Images.boxTitleBORDERWIDTH + iTranslateX, this.getPosY() + iTranslateY, this.imgWidth, this.imgHeight, 1.0F);
                 oSB.setColor(new Color(0.0F, 0.0F, 0.0F, 0.5F));
                 ImageManager.getImage(Images.gradientVertical).draw(oSB, this.getPosX() + Images.boxTitleBORDERWIDTH + iTranslateX, this.getPosY() + this.imgHeight + iTranslateY, this.imgWidth, CFG.PADDING * 2);
@@ -284,15 +295,15 @@ public class InGame_Event extends Menu {
             oSB.setColor(Color.WHITE);
         } catch (Exception ignored) {
         }
-        if(layout.customTitle){
-            Renderer.glyphLayout.setText(Renderer.fontMain.get(FontLoader.fontID),Game.lang.get(this.event.title));
-            Renderer.drawText(oSB,FontLoader.fontID,Game.lang.get(this.event.title),layout.titleScale, (int) (this.getPosX() - (Renderer.glyphLayout.getWidth() / 2) + iTranslateX + imgWidth * layout.titleX), (int) (this.getPosY() + (this.imgHeight * layout.titleY) + iTranslateY),Color.BLACK);
+        if (layout.customTitle) {
+            Renderer.glyphLayout.setText(Renderer.fontMain.get(FontLoader.fontID), Game.lang.get(this.event.title));
+            Renderer.drawText(oSB, FontLoader.fontID, Game.lang.get(this.event.title), layout.titleScale, (int) (this.getPosX() - (Renderer.glyphLayout.getWidth() / 2) + iTranslateX + imgWidth * layout.titleX), (int) (this.getPosY() + (this.imgHeight * layout.titleY) + iTranslateY), Color.BLACK);
         }
         super.draw(oSB, iTranslateX, iTranslateY, menuIsActive, titleStatus);
     }
 
     public void setVisible(boolean visible) {
-        if(!madeDecision && !visible && event.important){
+        if (!madeDecision && !visible && event.important) {
             Game.menuManager.addToast_Error(Game.lang.get("NotAllowedToCloseBeforeDecide"));
             return;
         }

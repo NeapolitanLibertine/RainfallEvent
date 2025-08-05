@@ -2343,6 +2343,14 @@ public class EventsManager {
                                             CFG.exceptionStack(ex);
                                         }
                                         break;
+                                    case "tooltip":
+                                        try {
+                                            option.outcome.add(new EventOutcome_Tooltip(Boolean.parseBoolean(sLine[1]),sLine[2]));
+                                        } catch (Exception var30) {
+                                            ex = var30;
+                                            CFG.exceptionStack(ex);
+                                        }
+                                        break;
                                     case "change_law":
                                         try {
                                             option.outcome.add(new EventOutcome_Change_Law(Integer.parseInt(sLine[1]), Integer.parseInt(sLine[2])));
@@ -2362,7 +2370,7 @@ public class EventsManager {
                                     case "unlock_tech":
                                         try {
                                             if (sLine.length > 2) {
-                                                option.outcome.add(new EventOutcome_Unlock_Tech(Integer.parseInt(sLine[1]), Integer.parseInt(sLine[2])));
+                                                option.outcome.add(new EventOutcome_Unlock_Tech(sLine[1], Integer.parseInt(sLine[2])));
                                             }
                                             option.outcome.add(new EventOutcome_Unlock_Tech(Integer.parseInt(sLine[1])));
                                         } catch (Exception var30) {

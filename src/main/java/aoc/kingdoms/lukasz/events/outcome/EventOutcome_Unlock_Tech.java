@@ -11,9 +11,9 @@ public class EventOutcome_Unlock_Tech extends EventOutcome{
     public EventOutcome_Unlock_Tech(int i) {
         techID = i;
     }
-    public EventOutcome_Unlock_Tech(int i,int j) {
-        techID = i;
-        civID = j;
+    public EventOutcome_Unlock_Tech(String civTag,int j) {
+        techID = j;
+        civID = Game.getCivID(civTag);
     }
 
     public void updateCiv(int iCivID, int bonus_duration) {
